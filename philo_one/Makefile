@@ -17,6 +17,9 @@ SRCS 			= main/philo_one.c \
 					srcs/do_things.c \
 					utils/ft_atoi.c \
 					utils/ft_isdigit.c \
+					utils/ft_itoa.c \
+					utils/ft_strdup.c \
+					utils/ft_strlen.c \
 
 OBJS			= ${SRCS:.c=.o}
 INCLUDE 		= include/philo_one.h

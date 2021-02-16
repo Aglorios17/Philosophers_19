@@ -21,26 +21,32 @@
 
 typedef struct	s_philo_one
 {
-	int 		nb_of_philo;
-	int			t_to_die;
-	int			t_to_eat;
-	int			t_to_sleep;
-	int			nb_of_time;
-	pthread_t	philos;
+	int 			nb_of_philo;
+	int				t_to_die;
+	int				t_to_eat;
+	int				t_to_sleep;
+	int				nb_of_time;
+	pthread_t		**philos;
+	pthread_mutex_t	**mutex;
 }				t_one;
 
 /////////////// INIT MAIN //////////////
+t_one	*global_struct(void);
 int		ft_error(int i);
 void	init_struct(t_one *one);
 int		get_value(t_one *one, char **argv, int argc);
 int		check_value(t_one *one);
 
 /////////////// DO_THINGS //////////////
+void	*do_things(void *arg);
 void	*eating();
 void	*sleeping(void *arg);
 void	*thinking(t_one *one);
 ///////////////    UTILS  //////////////
-int	ft_atoi(const char *str);
-int	ft_isdigit(int c);
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
+char	*ft_itoa(int n);
+char	*ft_strdup(const char *src);
+size_t	ft_strlen(const char *str);
 
 #endif
