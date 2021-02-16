@@ -11,7 +11,10 @@
 # **************************************************************************** #
 
 NAME 			= philo_one
-SRCS 			= philo_one.c \
+SRCS 			= main/philo_one.c \
+					main/init.c \
+					srcs/get_values.c \
+					srcs/do_things.c \
 					utils/ft_atoi.c \
 					utils/ft_isdigit.c \
 

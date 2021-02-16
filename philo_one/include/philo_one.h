@@ -29,6 +29,17 @@ typedef struct	s_philo_one
 	pthread_t	philos;
 }				t_one;
 
+/////////////// INIT MAIN //////////////
+int		ft_error(int i);
+void	init_struct(t_one *one);
+int		get_value(t_one *one, char **argv, int argc);
+int		check_value(t_one *one);
+
+/////////////// DO_THINGS //////////////
+void	*eating();
+void	*sleeping(void *arg);
+void	*thinking(t_one *one);
+///////////////    UTILS  //////////////
 int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
 
