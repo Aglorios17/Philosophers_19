@@ -5,7 +5,7 @@ int		ft_thread_alloc(t_one *one)
 	int i;
 
 	i = 0;
-	one->philos = malloc(sizeof(pthread_t *));
+	one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo);
 	while (i < one->nb_of_philo)
 		one->philos[i++] = malloc(sizeof(pthread_t));
 	return (1);
