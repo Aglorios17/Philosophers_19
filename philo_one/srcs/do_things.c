@@ -38,23 +38,29 @@ void	*thinking(void *arg)
 int		take_fork(t_one *one, pthread_mutex_t lock, int takefork, int i)
 {
 //	printf("philos ||%i|| try fork\n\n", i + 1);
-	pthread_mutex_lock(&lock);
-	if (one->forkette[i] && one->forkette[i] == 1)
+	int left;
+	int right;
+
+	left = 0;
+	right = 0;
+
+	if (i + 1 == one->nb_of_philo)
+		right = 0;
+	else
+		right = i + 1;
+	left = i;
+	if (i % 2)
 	{
-		if (i + 1 < one->nb_of_philo && one->forkette[i + 1] == 1)
-		{
-			one->forkette[i] = 2;
-			one->forkette[i + 1] = 2;
-			takefork = 1;
-			pthread_mutex_unlock(&lock);
-		}
-		else if (one->forkette[0] && one->forkette[0] == 1)
-		{
-			pthread_mutex_lock(&lock);
-			one->forkette[i] = 2;
-			one->forkette[0] = 2;
-			takefork = 2;
-		}
+		left = right;
+		right = i;
+	}
+	pthread_mutex_lock(&lock);
+	if (one->forkette[right] && one->forkette[right] == 1 && 
+		one->forkette[left] && one->forkette[left] == 1)
+	{
+		one->forkette[i] = 2;
+		one->forkette[i + 1] = 2;
+		takefork = 1;
 	}
 	else
 		takefork = 0;
@@ -89,10 +95,10 @@ void	*do_things(void *arg)
 			eating(arg);
 			pthread_mutex_lock(&lock);
 			one->forkette[i] = 1;
-			if (takefork == 1)
-				one->forkette[i + 1] = 1;
-			else
+			if (i + 1 == one->nb_of_philo)
 				one->forkette[0] = 1;
+			else
+				one->forkette[i + 1] = 1;
 			pthread_mutex_unlock(&lock);
 //			printf("-----foooooooork |%i|\n", one->forkette[i]);
 			sleeping(arg);
