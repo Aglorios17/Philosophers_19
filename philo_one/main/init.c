@@ -19,4 +19,5 @@ void	init_struct(t_one *one)
 	one->t_to_eat = 0;
 	one->t_to_sleep = 0;
 	one->nb_of_time = 0;
+	one->forkette = 0;
 }

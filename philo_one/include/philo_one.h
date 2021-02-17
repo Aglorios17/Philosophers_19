@@ -28,6 +28,7 @@ typedef struct	s_philo_one
 	int				nb_of_time;
 	pthread_t		**philos;
 	pthread_mutex_t	**mutex;
+	int				*forkette;
 }				t_one;
 
 /////////////// INIT MAIN //////////////
@@ -41,7 +42,7 @@ int		check_value(t_one *one);
 void	*do_things(void *arg);
 void	*eating();
 void	*sleeping(void *arg);
-void	*thinking(t_one *one);
+void	*thinking(void *arg);
 ///////////////    UTILS  //////////////
 int		ft_atoi(const char *str);
 int		ft_isdigit(int c);

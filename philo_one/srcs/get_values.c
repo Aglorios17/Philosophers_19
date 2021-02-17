@@ -23,7 +23,27 @@ int		get_value(t_one *one, char **argv, int argc)
 
 int		check_value(t_one *one)
 {
+	int i;
+	int nbp;
+
+	i = 0;
+	nbp = 0;
 	if (one->nb_of_philo < 2)
 		return (ft_error(3));
+	nbp = one->nb_of_philo;
+//	printf("|%i|\n", nbp);
+	one->forkette = malloc(sizeof(int) * nbp);
+	while (nbp)
+	{
+		one->forkette[i] = 1;
+		nbp--;
+		i++;
+	}
+//	i = 0;
+//	while(one->forkette[i])
+//	{
+//		printf("test|%i|\n", one->forkette[i]);
+//		i++;
+//	}
 	return (1);
 }
