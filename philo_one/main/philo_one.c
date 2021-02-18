@@ -6,9 +6,26 @@ int		ft_thread_alloc(t_one *one)
 
 	i = 0;
 	one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo);
+	one->mutex = malloc(sizeof(pthread_mutex_t *) * one->nb_of_philo);
 	while (i < one->nb_of_philo)
-		one->philos[i++] = malloc(sizeof(pthread_t));
+	{
+		one->philos[i] = malloc(sizeof(pthread_t));
+		one->mutex[i] = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(one->mutex[i], NULL);
+		i++;
+
+	}
 	return (1);
+}
+
+void	*do_time(void *arg)
+{
+	int *i;
+
+	i = (int *)arg;
+	sleep(*i);
+	printf("MORT\n\n");
+	exit(1);
 }
 
 int		ft_thread_create(t_one *one)
@@ -20,6 +37,7 @@ int		ft_thread_create(t_one *one)
 	nbp = NULL;
 	if (ft_thread_alloc(one) == -1)
 		return (0);
+	pthread_create(&one->time, NULL, do_time, &one->t_to_die);
 	while (i < one->nb_of_philo)
 	{
 		nbp = ft_itoa(i + 1); ////////////////////////////////////// free after thread_join	

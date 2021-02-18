@@ -27,6 +27,7 @@ typedef struct	s_philo_one
 	int				t_to_sleep;
 	int				nb_of_time;
 	pthread_t		**philos;
+	pthread_t		time;
 	pthread_mutex_t	**mutex;
 	int				*forkette;
 }				t_one;

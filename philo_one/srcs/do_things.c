@@ -43,7 +43,7 @@ int		take_fork(t_one *one, pthread_mutex_t lock, int takefork, int i)
 
 	left = 0;
 	right = 0;
-
+	(void)lock;
 	if (i + 1 == one->nb_of_philo)
 		right = 0;
 	else
@@ -54,17 +54,17 @@ int		take_fork(t_one *one, pthread_mutex_t lock, int takefork, int i)
 		left = right;
 		right = i;
 	}
-	pthread_mutex_lock(&lock);
 	if (one->forkette[right] && one->forkette[right] == 1 && 
 		one->forkette[left] && one->forkette[left] == 1)
 	{
-		one->forkette[i] = 2;
-		one->forkette[i + 1] = 2;
+//		pthread_mutex_lock(&lock);
+		one->forkette[right] = 2;
+		one->forkette[left] = 2;
 		takefork = 1;
+//		pthread_mutex_unlock(&lock);
 	}
 	else
 		takefork = 0;
-	pthread_mutex_unlock(&lock);
 //	printf("philos ||%i|| finish forking\n\n", i + 1);
 	return (takefork);
 }
@@ -72,45 +72,63 @@ int		take_fork(t_one *one, pthread_mutex_t lock, int takefork, int i)
 void	*do_things(void *arg)
 {
 	t_one	*one;
-	int		takefork;
+//	int		takefork;
 	int		i;
-//	int		a;
-	pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+	int		fork1;
+	int		fork2;
 
-	takefork = 0;
+	fork1 = 0;
+	fork2 = 0;
+//	takefork = 0;
 	one = global_struct();
-	i = ft_atoi((char *)arg) - 1; /////// int tab 0 == 1
+	i = ft_atoi((char *)arg) - 1;
+/////////////////////////////////////////////
+	if (i + 1 >= one->nb_of_philo)
+		fork1 = 0;
+	else
+		fork1 = i + 1;
+	fork2 = i;
+	if (i % 2)
+	{
+		fork2 = fork1;
+		fork1 = i;
+	}
+////////////////////////////////////////////
 	printf("philos ||%s|| THINKING\n\n", (char *)arg);
 	while (1)
 	{
-		takefork = take_fork(one, lock, takefork, i);
-//		a = 0;
+//		takefork = take_fork(one, lock, takefork, i);
 //		printf("-----philos |%s|\n", (char *)arg);
 //		while (one->forkette[a])
 //			printf("-----before forkette |%i|-----\n", one->forkette[a++]);
 	//	printf("---takefork |%i|---\n", takefork);
-		if (takefork == 1 || takefork == 2)
+/////////////////////////////////////////////////////////////////
+		pthread_mutex_lock(one->mutex[fork1]);
+		printf("philos ||%s|| a la fourchette |%i|\n\n", (char *)arg, fork1);
+		pthread_mutex_lock(one->mutex[fork2]);
+		printf("philos ||%s|| a la fourchette |%i|\n\n", (char *)arg, fork2);
+		eating(arg);
+		pthread_mutex_unlock(one->mutex[fork1]);
+		pthread_mutex_unlock(one->mutex[fork2]);
+		sleeping(arg);
+		printf("philos ||%s|| THINKING\n\n", (char *)arg);
+/////////////////////////////////////////////////////////////////
+/*		if (takefork == 1 || takefork == 2)
 		{
-//			printf("-----fooooork |%i|\n", one->forkette[i]);
 			eating(arg);
-			pthread_mutex_lock(&lock);
+//			pthread_mutex_lock(&lock);
 			one->forkette[i] = 1;
 			if (i + 1 == one->nb_of_philo)
 				one->forkette[0] = 1;
 			else
 				one->forkette[i + 1] = 1;
-			pthread_mutex_unlock(&lock);
-//			printf("-----foooooooork |%i|\n", one->forkette[i]);
+//			pthread_mutex_unlock(&lock);
 			sleeping(arg);
+//			pthread_mutex_destroy(&lock);
+			return NULL;
 			printf("philos ||%s|| THINKING\n\n", (char *)arg);
-		}	
-	//	else
-	//		thinking(arg);
-//		a = 0;
-//		printf("-----philos |%s|\n", (char *)arg);
-//		while (one->forkette[a])
-//			printf("-----after forkette |%i|-----\n", one->forkette[a++]);
+		}
+*/
 	}
-	pthread_mutex_destroy(&lock);
 	return NULL;
 }
