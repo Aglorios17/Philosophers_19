@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_values.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
+/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo_one.h"
 
 int		get_value(t_one *one, char **argv, int argc)
@@ -31,7 +43,6 @@ int		check_value(t_one *one)
 	if (one->nb_of_philo < 2)
 		return (ft_error(3));
 	nbp = one->nb_of_philo;
-//	printf("|%i|\n", nbp);
 	one->forkette = malloc(sizeof(int) * nbp);
 	while (nbp)
 	{
@@ -39,11 +50,5 @@ int		check_value(t_one *one)
 		nbp--;
 		i++;
 	}
-//	i = 0;
-//	while(one->forkette[i])
-//	{
-//		printf("test|%i|\n", one->forkette[i]);
-//		i++;
-//	}
 	return (1);
 }

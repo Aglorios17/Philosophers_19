@@ -13,6 +13,7 @@
 NAME 			= philo_one
 SRCS 			= main/philo_one.c \
 					main/init.c \
+					srcs/thread.c \
 					srcs/get_values.c \
 					srcs/do_things.c \
 					utils/ft_atoi.c \
