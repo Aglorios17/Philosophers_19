@@ -28,6 +28,5 @@ int		main(int argc, char **argv)
 		return (0);
 	if (ft_thread_join(one) == 0)
 		return (0);
-	printf("OK\n");
 	return (0);
 }

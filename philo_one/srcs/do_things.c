@@ -58,16 +58,17 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	pthread_mutex_unlock(one->mutex[data->fork1]);
 	pthread_mutex_unlock(one->mutex[data->fork2]);
 	sleeping(arg, data);
-	ft_put_status(one, data, (char *)arg, "THINKING", -1);
 }
 
 void	*do_things(void *arg)
 {
-	t_one	*one;
-	t_data	*data;
-	int		i;
+	t_one		*one;
+	t_data		*data;
+	pthread_t	time;
+	int			i;
 
 	one = global_struct();
+	(void)time;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
 	i = ft_atoi((char *)arg) - 1;
@@ -75,8 +76,13 @@ void	*do_things(void *arg)
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec);
-	ft_put_status(one, data, (char *)arg, "THINKING", -1);
-	while (1)
+	i = 1;
+	while (one->death == 0)
+	{
+		ft_put_status(one, data, (char *)arg, "THINKING", -1);
 		things_bcl(one, data, arg);
+		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
+			return (NULL);
+	}
 	return (NULL);
 }

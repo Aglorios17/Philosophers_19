@@ -32,6 +32,7 @@ void	init_struct(t_one *one)
 	one->t_to_sleep = 0;
 	one->nb_of_time = 0;
 	one->forkette = 0;
+	one->death = 0;
 }
 
 t_one	*global_struct(void)

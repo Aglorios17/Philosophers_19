@@ -27,11 +27,12 @@ typedef struct		s_philo_one
 	int				t_to_sleep;
 	int				nb_of_time;
 	pthread_t		**philos;
-	pthread_t		time;
+	pthread_t		died;
 	pthread_mutex_t	**mutex;
 	pthread_mutex_t	write;
 	int				*forkette;
 	struct timeval	start;
+	int				death;
 }					t_one;
 
 typedef struct		s_data
@@ -56,7 +57,8 @@ int					ft_thread_join(t_one *one);
 void				*do_things(void *arg);
 void				*eating(void *arg, t_data *data);
 void				*sleeping(void *arg, t_data *data);
-void				ft_put_status(t_one *one, t_data *data, char *philo, char *put, int i);
+void				ft_put_status(t_one *one, t_data *data, char *philo,
+						char *put, int i);
 
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);

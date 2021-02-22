@@ -23,15 +23,15 @@ void	ft_put_status(t_one *one, t_data *data, char *philo, char *put, int i)
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
 	nbr = ft_itoa(data->time);
 	write(1, nbr, ft_strlen(nbr));
-	write(1, "  Philosopher ||", 16); 
-	write(1, philo, ft_strlen(philo)); 
+	write(1, "  Philosopher ||", 16);
+	write(1, philo, ft_strlen(philo));
 	write(1, "|| ", 3);
 	if (i != -1)
 	{
-		write(1, "has the fork ||", 15); 
+		write(1, "has the fork ||", 15);
 		nbr = ft_itoa(i);
 		write(1, nbr, ft_strlen(nbr));
-		write(1, "||", 2); 
+		write(1, "||", 2);
 	}
 	else
 		write(1, put, ft_strlen(put));

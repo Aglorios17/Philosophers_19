@@ -14,7 +14,7 @@
 
 int		ft_thread_alloc(t_one *one)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!(one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo)))
@@ -48,7 +48,7 @@ void	*do_time(void *arg)
 	time = (end.tv_sec * 1000 + end.tv_usec / 1000) -
 		(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
 	printf("MORT en ||%i||\n", time);
-	exit(1);
+	return (NULL);
 }
 
 int		ft_thread_create(t_one *one)
@@ -61,7 +61,7 @@ int		ft_thread_create(t_one *one)
 	if (ft_thread_alloc(one) == -1)
 		return (0);
 	gettimeofday(&one->start, NULL);
-	pthread_create(&one->time, NULL, do_time, &one->t_to_die);
+	pthread_create(&one->died, NULL, do_time, &one->t_to_die);
 	while (i < one->nb_of_philo)
 	{
 		nbp = ft_itoa(i + 1);
