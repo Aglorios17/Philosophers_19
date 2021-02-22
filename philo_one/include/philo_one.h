@@ -29,19 +29,22 @@ typedef struct		s_philo_one
 	pthread_t		**philos;
 	pthread_t		time;
 	pthread_mutex_t	**mutex;
+	pthread_mutex_t	write;
 	int				*forkette;
+	struct timeval	start;
 }					t_one;
 
 typedef struct		s_data
 {
 	int				fork1;
 	int				fork2;
+	struct timeval	end;
+	int				time;
 }					t_data;
 
 t_one				*global_struct(void);
-t_data				*global_structdata(void);
 int					ft_error(int i);
-void				init_struct(t_one *one, t_data *data);
+void				init_struct(t_one *one);
 int					get_value(t_one *one, char **argv, int argc);
 int					check_value(t_one *one);
 
@@ -51,8 +54,9 @@ int					ft_thread_create(t_one *one);
 int					ft_thread_join(t_one *one);
 
 void				*do_things(void *arg);
-void				*eating();
-void				*sleeping(void *arg);
+void				*eating(void *arg, t_data *data);
+void				*sleeping(void *arg, t_data *data);
+void				ft_put_status(t_one *one, t_data *data, char *philo, char *put, int i);
 
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);

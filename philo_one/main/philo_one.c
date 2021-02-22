@@ -15,11 +15,9 @@
 int		main(int argc, char **argv)
 {
 	t_one	*one;
-	t_data	*data;
 
 	one = global_struct();
-	data = global_structdata();
-	init_struct(one, data);
+	init_struct(one);
 	if (argc < 5 || argc > 6)
 		return (ft_error(1));
 	if (get_value(one, argv, argc) == -1)
