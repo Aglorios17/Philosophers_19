@@ -37,6 +37,8 @@ typedef struct		s_philo_one
 typedef struct		s_data
 {
 	pthread_t		timer;
+	pthread_mutex_t	timing;
+	int				name;
 	int				fork1;
 	int				fork2;
 	struct timeval	end;

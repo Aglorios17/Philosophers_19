@@ -17,9 +17,11 @@ void	*eating(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
-	ft_put_status(one, data, (char *)arg, "EATING", -1);
+	ft_put_status(one, data, (char *)arg, "EAT", -1);
+	pthread_mutex_lock(&data->timing);
 	usleep(one->t_to_eat * 1000);
 	data->live += one->t_to_die;
+	pthread_mutex_unlock(&data->timing);
 	return (NULL);
 }
 
@@ -28,7 +30,7 @@ void	*sleeping(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
-	ft_put_status(one, data, (char *)arg, "SLEEPING", -1);
+	ft_put_status(one, data, (char *)arg, "SLEEP", -1);
 	usleep(one->t_to_sleep * 1000);
 	return (NULL);
 }
@@ -71,18 +73,22 @@ void	*do_time(void *arg)
 	one = global_struct();
 	data = (t_data *)arg;
 	time = 0;
-//	while (1)
-//	{
+	while (1)
+	{
+		pthread_mutex_lock(&data->timing);
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
-		printf("time ||%li||\n", time);
 		if (time >= data->live)
 		{
 			pthread_mutex_lock(&one->write);
-			printf("MORT en ||%li||\n", time - data->live);
+//			printf("time ||%li||\n", time);
+//			printf("live ||%li||\n", data->live);
+//			printf("die ||%i||\n", one->t_to_die);
+			printf("Philosopher %i est MORT en ||%li||\n", data->name, time - data->live);
 			exit(1);
 		}
-//	}
+		pthread_mutex_unlock(&data->timing);
+	}
 	return (NULL);
 }
 
@@ -95,8 +101,10 @@ void	*do_things(void *arg)
 	one = global_struct();
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
+	pthread_mutex_init(&data->timing, NULL);
 	data->timer = 0;
 	i = ft_atoi((char *)arg) - 1;
+	data->name = ft_atoi((char *)arg);
 	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) + one->t_to_die;
@@ -104,7 +112,7 @@ void	*do_things(void *arg)
 	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{
-		ft_put_status(one, data, (char *)arg, "THINKING", -1);
+		ft_put_status(one, data, (char *)arg, "THINK", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
