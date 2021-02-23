@@ -34,23 +34,6 @@ int		ft_thread_alloc(t_one *one)
 	return (1);
 }
 
-void	*do_time(void *arg)
-{
-	int				*i;
-	int				time;
-	struct timeval	end;
-	t_one			*one;
-
-	one = global_struct();
-	i = (int *)arg;
-	usleep(*i * 1000);
-	gettimeofday(&end, NULL);
-	time = (end.tv_sec * 1000 + end.tv_usec / 1000) -
-		(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	printf("MORT en ||%i||\n", time);
-	return (NULL);
-}
-
 int		ft_thread_create(t_one *one)
 {
 	int		i;
@@ -61,7 +44,6 @@ int		ft_thread_create(t_one *one)
 	if (ft_thread_alloc(one) == -1)
 		return (0);
 	gettimeofday(&one->start, NULL);
-	pthread_create(&one->died, NULL, do_time, &one->t_to_die);
 	while (i < one->nb_of_philo)
 	{
 		nbp = ft_itoa(i + 1);

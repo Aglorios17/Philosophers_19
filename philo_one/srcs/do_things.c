@@ -60,29 +60,62 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	sleeping(arg, data);
 }
 
+void	*do_time(void *arg)
+{
+	int				*i;
+	int				time;
+	struct timeval	end;
+	t_one			*one;
+
+	one = global_struct();
+	i = (int *)arg;
+	time = 0;
+	(void)time;
+	(void)i;
+	(void)end;
+	(void)one;
+//	while (1)
+//	{
+		gettimeofday(&end, NULL);
+//		time = (end.tv_sec * 1000 + end.tv_usec / 1000) -
+//			(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
+//		printf("time ||%i|| i ||%i||\n", time, *i);
+	//	if (time > *i)
+	//	{
+	//		pthread_mutex_lock(&one->write);
+	//		printf("MORT en ||%i||\n", time);
+	//		exit(1);
+	//	}
+//	}
+	return (NULL);
+}
+
 void	*do_things(void *arg)
 {
 	t_one		*one;
 	t_data		*data;
-	pthread_t	time;
 	int			i;
 
 	one = global_struct();
-	(void)time;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
+	data->timer = 0;
 	i = ft_atoi((char *)arg) - 1;
 	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec);
 	i = 1;
+	pthread_create(&data->timer, NULL, do_time, &one->t_to_die);
 	while (one->death == 0)
 	{
 		ft_put_status(one, data, (char *)arg, "THINKING", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
+		{
+			pthread_detach(data->timer);
 			return (NULL);
+		}
 	}
 	return (NULL);
 }
