@@ -19,6 +19,7 @@ void	*eating(void *arg, t_data *data)
 	one = global_struct();
 	ft_put_status(one, data, (char *)arg, "EATING", -1);
 	usleep(one->t_to_eat * 1000);
+	data->live += one->t_to_die;
 	return (NULL);
 }
 
@@ -62,30 +63,25 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 
 void	*do_time(void *arg)
 {
-	int				*i;
-	int				time;
-	struct timeval	end;
 	t_one			*one;
+	t_data			*data;
+	long int		time;
+	struct timeval	end;
 
 	one = global_struct();
-	i = (int *)arg;
+	data = (t_data *)arg;
 	time = 0;
-	(void)time;
-	(void)i;
-	(void)end;
-	(void)one;
 //	while (1)
 //	{
 		gettimeofday(&end, NULL);
-//		time = (end.tv_sec * 1000 + end.tv_usec / 1000) -
-//			(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-//		printf("time ||%i|| i ||%i||\n", time, *i);
-	//	if (time > *i)
-	//	{
-	//		pthread_mutex_lock(&one->write);
-	//		printf("MORT en ||%i||\n", time);
-	//		exit(1);
-	//	}
+		time = end.tv_sec * 1000 + end.tv_usec / 1000;
+		printf("time ||%li||\n", time);
+		if (time >= data->live)
+		{
+			pthread_mutex_lock(&one->write);
+			printf("MORT en ||%li||\n", time - data->live);
+			exit(1);
+		}
 //	}
 	return (NULL);
 }
@@ -103,10 +99,9 @@ void	*do_things(void *arg)
 	i = ft_atoi((char *)arg) - 1;
 	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
-	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec) -
-					(one->start.tv_sec * 1000 + one->start.tv_usec);
+	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) + one->t_to_die;
 	i = 1;
-	pthread_create(&data->timer, NULL, do_time, &one->t_to_die);
+	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{
 		ft_put_status(one, data, (char *)arg, "THINKING", -1);

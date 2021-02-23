@@ -40,7 +40,8 @@ typedef struct		s_data
 	int				fork1;
 	int				fork2;
 	struct timeval	end;
-	int				time;
+	long int		time;
+	long int		live;
 }					t_data;
 
 t_one				*global_struct(void);
