@@ -58,9 +58,11 @@ int					ft_thread_create(t_one *one);
 int					ft_thread_join(t_one *one);
 
 void				*do_things(void *arg);
+void				init_do_things(t_one *one, t_data *data, char *arg, int i);
+void				things_bcl(t_one *one, t_data *data, void *arg);
 void				*eating(void *arg, t_data *data);
 void				*sleeping(void *arg, t_data *data);
-void				ft_put_status(t_one *one, t_data *data, char *philo,
+void				ft_put_status(t_data *data, char *philo,
 						char *put, int i);
 
 int					ft_atoi(const char *str);

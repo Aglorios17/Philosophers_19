@@ -12,11 +12,13 @@
 
 #include "../include/philo_one.h"
 
-void	ft_put_status(t_one *one, t_data *data, char *philo, char *put, int i)
+void	ft_put_status(t_data *data, char *philo, char *put, int i)
 {
 	char	*nbr;
+	t_one	*one;
 
 	nbr = NULL;
+	one = global_struct();
 	pthread_mutex_lock(&one->write);
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
