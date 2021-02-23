@@ -67,7 +67,9 @@ void	*do_time(void *arg)
 			pthread_mutex_lock(&one->write);
 			printf("Philosopher %i est MORT en ||%li||\n",
 				data->name, time - data->live);
-			exit(1);
+			pthread_mutex_lock(&one->finish);
+			one->death = 1;
+			return (NULL);
 		}
 		pthread_mutex_unlock(&data->timing);
 	}

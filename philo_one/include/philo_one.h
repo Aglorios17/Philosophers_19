@@ -29,6 +29,7 @@ typedef struct		s_philo_one
 	pthread_t		**philos;
 	pthread_mutex_t	**mutex;
 	pthread_mutex_t	write;
+	pthread_mutex_t	finish;
 	int				*forkette;
 	struct timeval	start;
 	int				death;
