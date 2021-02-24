@@ -21,17 +21,17 @@
 
 typedef struct		s_philo_one
 {
+	pthread_t		**philos;
+	pthread_mutex_t	**mutex;
+	pthread_mutex_t	write;
+	pthread_mutex_t	finish;
+	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				nb_of_time;
-	pthread_t		**philos;
-	pthread_mutex_t	**mutex;
-	pthread_mutex_t	write;
-	pthread_mutex_t	finish;
 	int				*forkette;
-	struct timeval	start;
 	int				death;
 }					t_one;
 
@@ -39,10 +39,10 @@ typedef struct		s_data
 {
 	pthread_t		timer;
 	pthread_mutex_t	timing;
+	struct timeval	end;
 	int				name;
 	int				fork1;
 	int				fork2;
-	struct timeval	end;
 	long int		time;
 	long int		live;
 }					t_data;
