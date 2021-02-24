@@ -64,6 +64,7 @@ void	*do_things(void *arg)
 			pthread_detach(data->timer);
 			return (NULL);
 		}
+		usleep(50); ///  die too late (un peu mieux)
 	}
 	pthread_detach(data->timer);
 //	exit(1); /////////////////////// need return
