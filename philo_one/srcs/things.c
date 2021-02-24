@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 16:06:34 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/24 16:56:46 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*do_time(void *arg)
 	time = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&data->timing);
+//		pthread_mutex_lock(&data->timing);
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
@@ -76,7 +76,7 @@ void	*do_time(void *arg)
 			return (NULL);
 		}
 		usleep(5);
-	    pthread_mutex_unlock(&data->timing);
+//	    pthread_mutex_unlock(&data->timing);
 	}
 	return (NULL);
 }
