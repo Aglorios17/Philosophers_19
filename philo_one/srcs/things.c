@@ -17,6 +17,9 @@ void	*eating(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
+	gettimeofday(&data->end, NULL);
+	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
+					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
 	ft_put_status(data, (char *)arg, "EAT", -1);
 	pthread_mutex_lock(&data->timing);
 	my_sleep(one->t_to_eat);
@@ -30,6 +33,9 @@ void	*sleeping(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
+	gettimeofday(&data->end, NULL);
+	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
+					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
 	ft_put_status(data, (char *)arg, "SLEEP", -1);
 	my_sleep(one->t_to_sleep);
 	return (NULL);
@@ -68,7 +74,7 @@ void	*do_time(void *arg)
 			printf("Philosopher %i est MORT en ||%li||\n",
 				data->name, (end.tv_sec * 1000 + end.tv_usec / 1000) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000));
-			pthread_mutex_lock(&one->finish);
+		//	pthread_mutex_unlock(&one->finish);
 			one->death = 1;
 			return (NULL);
 		}

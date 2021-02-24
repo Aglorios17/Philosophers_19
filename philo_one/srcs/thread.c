@@ -59,12 +59,6 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-	{
-		if (pthread_join(*one->philos[i++], NULL) != 0)
-		{
-			printf("death\n");
-			return (1);
-		}
-	}
+		pthread_join(*one->philos[i++], NULL);
 	return (1);
 }
