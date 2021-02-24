@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/24 15:58:47 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	choose_fork(t_one *one, t_data *data, int i)
 {
 	data->fork1 = 0;
 	data->fork2 = 0;
+	if (i % 2)
+		usleep(50);
 	if (i + 1 >= one->nb_of_philo)
 		data->fork1 = 0;
 	else

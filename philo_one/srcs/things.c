@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 15:31:15 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/24 16:06:34 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	*eating(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
-	ft_put_status(data, (char *)arg, "EAT", -1);
 	pthread_mutex_lock(&data->timing);
-	my_sleep(one->t_to_eat);
-	data->live = get_time() + one->t_to_die;
+	data->live += one->t_to_die;
 	pthread_mutex_unlock(&data->timing);
+	ft_put_status(data, (char *)arg, "EAT", -1);
+	my_sleep(one->t_to_eat);
 	return (NULL);
 }
 
@@ -62,7 +62,7 @@ void	*do_time(void *arg)
 	time = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&data->timing);
+//		pthread_mutex_lock(&data->timing);
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
@@ -75,7 +75,8 @@ void	*do_time(void *arg)
 			one->death = 1;
 			return (NULL);
 		}
-		pthread_mutex_unlock(&data->timing);
+		usleep(5);
+//		pthread_mutex_unlock(&data->timing);
 	}
 	return (NULL);
 }
