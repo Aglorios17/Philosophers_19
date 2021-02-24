@@ -18,7 +18,7 @@ void	*eating(void *arg, t_data *data)
 
 	one = global_struct();
 	pthread_mutex_lock(&data->timing);
-	data->live += one->t_to_die;
+	data->live = one->t_to_die + get_time();
 	pthread_mutex_unlock(&data->timing);
 	ft_put_status(data, (char *)arg, "EAT", -1);
 	my_sleep(one->t_to_eat);
@@ -62,7 +62,7 @@ void	*do_time(void *arg)
 	time = 0;
 	while (1)
 	{
-//		pthread_mutex_lock(&data->timing);
+		pthread_mutex_lock(&data->timing);
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
@@ -76,7 +76,7 @@ void	*do_time(void *arg)
 			return (NULL);
 		}
 		usleep(5);
-//		pthread_mutex_unlock(&data->timing);
+	    pthread_mutex_unlock(&data->timing);
 	}
 	return (NULL);
 }
