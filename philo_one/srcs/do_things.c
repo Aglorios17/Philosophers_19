@@ -64,6 +64,6 @@ void	*do_things(void *arg)
 		}
 	}
 	pthread_detach(data->timer);
-	exit(1); /////////////////////// need return
+//	exit(1); /////////////////////// need return
 	return (NULL);
 }
