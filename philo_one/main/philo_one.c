@@ -26,6 +26,7 @@ int		main(int argc, char **argv)
 		return (0);
 	if (ft_thread_create(one) == 0)
 		return (0);
+	pthread_mutex_lock(&one->finish);
 	if (ft_thread_join(one) == 0)
 		return (0);
 	return (0);
