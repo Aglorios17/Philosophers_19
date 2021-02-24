@@ -23,9 +23,16 @@ void	choose_fork(t_one *one, t_data *data, int i)
 	data->fork2 = i;
 	if (i % 2)
 	{
-		usleep(50);
-		data->fork2 = data->fork1;
-		data->fork1 = i;
+		if (data->swipe % 2 == 0)
+		{
+			data->fork2 = data->fork1;
+			data->fork1 = i;
+		}
+		else
+		{
+			data->fork1 = data->fork1;
+			data->fork2 = i;
+		}
 	}
 }
 
@@ -35,6 +42,9 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 	data->timer = 0;
 	data->name = ft_atoi(arg);
 	i = ft_atoi(arg) - 1;
+	data->swipe = 0;
+	if (i % 2)
+		usleep(50);
 	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000)
@@ -64,6 +74,7 @@ void	*do_things(void *arg)
 			pthread_detach(data->timer);
 			return (NULL);
 		}
+		choose_fork(one, data, data->name - 1);
 	}
 	pthread_detach(data->timer);
 	return (NULL);

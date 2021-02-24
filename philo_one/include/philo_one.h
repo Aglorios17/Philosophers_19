@@ -45,6 +45,7 @@ typedef struct		s_data
 	int				fork2;
 	long int		time;
 	long int		live;
+	int				swipe;
 }					t_data;
 
 t_one				*global_struct(void);
