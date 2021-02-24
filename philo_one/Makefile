@@ -23,6 +23,7 @@ SRCS 			= main/philo_one.c \
 					utils/ft_itoa.c \
 					utils/ft_strdup.c \
 					utils/ft_strlen.c \
+					utils/ft_strjoin.c \
 
 OBJS			= ${SRCS:.c=.o}
 INCLUDE 		= include/philo_one.h
