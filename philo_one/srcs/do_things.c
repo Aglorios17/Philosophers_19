@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 15:58:47 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/24 18:23:53 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	choose_fork(t_one *one, t_data *data, int i)
 {
 	data->fork1 = 0;
 	data->fork2 = 0;
-	if (i % 2)
-		usleep(50);
 	if (i + 1 >= one->nb_of_philo)
 		data->fork1 = 0;
 	else
@@ -25,6 +23,7 @@ void	choose_fork(t_one *one, t_data *data, int i)
 	data->fork2 = i;
 	if (i % 2)
 	{
+		usleep(50);
 		data->fork2 = data->fork1;
 		data->fork1 = i;
 	}
@@ -61,6 +60,7 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
+			pthread_mutex_unlock(&one->finish);
 			pthread_detach(data->timer);
 			return (NULL);
 		}
