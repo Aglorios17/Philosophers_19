@@ -66,6 +66,8 @@ void				*sleeping(void *arg, t_data *data);
 void				ft_put_status(t_data *data, char *philo,
 						char *put, int i);
 
+void				my_sleep(long int time);
+long				get_time(void);
 int					ft_atoi(const char *str);
 int					ft_isdigit(int c);
 char				*ft_itoa(int n);

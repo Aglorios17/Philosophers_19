@@ -12,6 +12,33 @@
 
 #include "../include/philo_one.h"
 
+long	get_time(void)
+{
+	struct timeval	tp;
+	long			milliseconds;
+
+	gettimeofday(&tp, NULL);
+	milliseconds = tp.tv_sec * 1000;
+	milliseconds += tp.tv_usec / 1000;
+	return (milliseconds);
+}
+
+void	my_sleep(long int time)
+{
+	long int	i;
+	long int	t;
+
+	i = 0;
+	t = get_time();
+	while (i < (time * 20))
+	{
+		i++;
+		if ((get_time() - t) >= time)
+			break ;
+		usleep(50);
+	}
+}
+
 void	ft_put_status(t_data *data, char *philo, char *put, int i)
 {
 	char	*nbr;
@@ -25,8 +52,7 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	nbr = ft_itoa(data->time);
-	str = ft_strjoin(str, nbr);
+	str = ft_itoa(data->time);
 	str = ft_strjoin(str, "  Philosopher ||");
 	str = ft_strjoin(str, philo);
 	str = ft_strjoin(str, "|| ");

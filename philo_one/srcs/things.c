@@ -19,7 +19,7 @@ void	*eating(void *arg, t_data *data)
 	one = global_struct();
 	ft_put_status(data, (char *)arg, "EAT", -1);
 	pthread_mutex_lock(&data->timing);
-	usleep(one->t_to_eat * 1000);
+	my_sleep(one->t_to_eat);
 	data->live += one->t_to_die;
 	pthread_mutex_unlock(&data->timing);
 	return (NULL);
@@ -31,7 +31,7 @@ void	*sleeping(void *arg, t_data *data)
 
 	one = global_struct();
 	ft_put_status(data, (char *)arg, "SLEEP", -1);
-	usleep(one->t_to_sleep * 1000);
+	my_sleep(one->t_to_sleep);
 	return (NULL);
 }
 
