@@ -48,6 +48,9 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	nbr = NULL;
 	str = NULL;
 	one = global_struct();
+	gettimeofday(&data->end, NULL);
+	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
+					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
 	str = ft_itoa(data->time);
 	str = ft_strjoin(str, " Philosopher ");
 	str = ft_strjoin(str, philo);
