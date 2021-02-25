@@ -38,20 +38,28 @@ void	*sleeping(void *arg, t_data *data)
 	return (NULL);
 }
 
-void	meal_count(t_one *one, t_data *data, t_meal *meal)
+void	meal_count(t_one *one, t_data *data)
 {
 //	printf("\ndata->meal || %i ||\n", data->meal);
 //	printf("\nphilos || %i ||\n", one->nb_of_philo);
 //	printf("\nmeal * philo || %i ||\n", data->meal * one->nb_of_philo);
-//	printf("\nmeal->count || %i ||\n", meal->count);
 //	printf("\nok");
-	while (1 && data->meal < 0)
+//	pthread_mutex_unlock(&one->finish);
+	while (1)
 	{
-		if (meal->count / (data->meal * one->nb_of_philo) == 0)
+		if ((one->count / one->nb_of_philo) == data->meal)
 		{
-//			printf("\nBREAK\n");
+//			pthread_mutex_lock(&one->write);
+//			printf("data->name || %i ||\n", data->name);
+//			printf("data->meal || %i ||\n", data->meal);
+//			printf("philos || %i ||\n", one->nb_of_philo);
+//			printf("meal * philo || %i ||\n", data->meal * one->nb_of_philo);
+//			pthread_mutex_unlock(&one->write);
+//			exit(1);
 			break;
 		}
+//		pthread_mutex_unlock(&one->finish);
+//			exit(1);
 		usleep(5);
 	}
 //	printf("\nok2\n");
@@ -59,10 +67,6 @@ void	meal_count(t_one *one, t_data *data, t_meal *meal)
 
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
-	t_meal	*meal;
-
-	meal = global_structc();
-	meal_count(one, data, meal);
 	pthread_mutex_lock(one->mutex[data->fork1]);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
 	pthread_mutex_lock(one->mutex[data->fork2]);
@@ -70,11 +74,12 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	eating(arg, data);
 	pthread_mutex_unlock(one->mutex[data->fork1]);
 	pthread_mutex_unlock(one->mutex[data->fork2]);
+	pthread_mutex_lock(&one->eat);
+	one->count++;
+	pthread_mutex_unlock(&one->eat);
 	data->meal++;
-	pthread_mutex_lock(&meal->ct);
-	meal->count++;
-	pthread_mutex_unlock(&meal->ct);
 	sleeping(arg, data);
+	meal_count(one, data);
 }
 
 void	*do_time(void *arg)

@@ -25,6 +25,7 @@ typedef struct		s_philo_one
 	pthread_mutex_t	**mutex;
 	pthread_mutex_t	write;
 	pthread_mutex_t	finish;
+	pthread_mutex_t	eat;
 	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
@@ -32,6 +33,7 @@ typedef struct		s_philo_one
 	int				t_to_sleep;
 	int				nb_of_time;
 	int				death;
+	int				count;
 }					t_one;
 
 typedef struct		s_data
@@ -47,14 +49,7 @@ typedef struct		s_data
 	int				meal;
 }					t_data;
 
-typedef struct		s_meal
-{
-	pthread_mutex_t	ct;
-	int				count;
-}					t_meal;
-
 t_one				*global_struct(void);
-t_meal				*global_structc(void);
 int					ft_error(int i);
 void				init_struct(t_one *one);
 int					get_value(t_one *one, char **argv, int argc);
@@ -72,6 +67,7 @@ void				*eating(void *arg, t_data *data);
 void				*sleeping(void *arg, t_data *data);
 void				ft_put_status(t_data *data, char *philo,
 						char *put, int i);
+void				meal_count(t_one *one, t_data *data);
 
 void				my_sleep(long int time);
 long				get_time(void);

@@ -32,6 +32,7 @@ void	init_struct(t_one *one)
 	one->t_to_sleep = 0;
 	one->nb_of_time = 0;
 	one->death = 0;
+	one->count = 0;
 }
 
 t_one	*global_struct(void)
@@ -39,11 +40,4 @@ t_one	*global_struct(void)
 	static t_one	one;
 
 	return (&one);
-}
-
-t_meal	*global_structc(void)
-{
-	static t_meal	meal;
-
-	return (&meal);
 }

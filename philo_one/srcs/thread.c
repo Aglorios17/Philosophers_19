@@ -31,6 +31,7 @@ int		ft_thread_alloc(t_one *one)
 		i++;
 	}
 	pthread_mutex_init(&one->write, NULL);
+	pthread_mutex_init(&one->eat, NULL);
 	pthread_mutex_init(&one->finish, NULL);
 	pthread_mutex_lock(&one->finish);
 	return (1);

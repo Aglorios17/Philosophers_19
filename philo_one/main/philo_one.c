@@ -15,12 +15,8 @@
 int		main(int argc, char **argv)
 {
 	t_one	*one;
-	t_meal  *meal;
 
 	one = global_struct();
-	meal = global_structc();
-	meal->count = 0;
-	pthread_mutex_init(&meal->ct, NULL);
 	init_struct(one);
 	if (argc < 5 || argc > 6)
 		return (ft_error(1));
