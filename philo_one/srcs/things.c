@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 16:56:46 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 15:49:06 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,16 @@ void	meal_count(t_one *one, t_data *data)
 //	printf("\nmeal * philo || %i ||\n", data->meal * one->nb_of_philo);
 //	printf("\nok");
 //	pthread_mutex_unlock(&one->finish);
+	usleep(500);
 	while (1)
 	{
 		if ((one->count / one->nb_of_philo) == data->meal)
 		{
 //			pthread_mutex_lock(&one->write);
-//			printf("data->name || %i ||\n", data->name);
+//			printf("Philo nb || %i ||\n", data->name);
+//			printf("one->count || %i ||\n", one->count);
 //			printf("data->meal || %i ||\n", data->meal);
-//			printf("philos || %i ||\n", one->nb_of_philo);
+//			printf("nb of philos || %i ||\n", one->nb_of_philo);
 //			printf("meal * philo || %i ||\n", data->meal * one->nb_of_philo);
 //			pthread_mutex_unlock(&one->write);
 //			exit(1);
@@ -74,12 +76,12 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	eating(arg, data);
 	pthread_mutex_unlock(one->mutex[data->fork1]);
 	pthread_mutex_unlock(one->mutex[data->fork2]);
-	pthread_mutex_lock(&one->eat);
-	one->count++;
-	pthread_mutex_unlock(&one->eat);
-	data->meal++;
+//	pthread_mutex_lock(&one->eat);
+//	one->count++;
+//	pthread_mutex_unlock(&one->eat);
+//	data->meal++;
 	sleeping(arg, data);
-	meal_count(one, data);
+//	meal_count(one, data);
 }
 
 void	*do_time(void *arg)
