@@ -25,7 +25,6 @@ typedef struct		s_philo_one
 	pthread_mutex_t	**mutex;
 	pthread_mutex_t	write;
 	pthread_mutex_t	finish;
-	pthread_mutex_t	eat;
 	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
@@ -33,7 +32,6 @@ typedef struct		s_philo_one
 	int				t_to_sleep;
 	int				nb_of_time;
 	int				death;
-	int				count;
 }					t_one;
 
 typedef struct		s_data
@@ -46,7 +44,6 @@ typedef struct		s_data
 	int				fork2;
 	long int		time;
 	long int		live;
-	int				meal;
 }					t_data;
 
 t_one				*global_struct(void);
