@@ -42,7 +42,6 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 	data->timer = 0;
 	data->name = ft_atoi(arg);
 	i = ft_atoi(arg) - 1;
-	data->swipe = 0;
 	if (i % 2)
 		usleep(50);
 	choose_fork(one, data, i);

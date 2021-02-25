@@ -31,7 +31,6 @@ typedef struct		s_philo_one
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				nb_of_time;
-	int				*forkette;
 	int				death;
 }					t_one;
 
@@ -45,7 +44,6 @@ typedef struct		s_data
 	int				fork2;
 	long int		time;
 	long int		live;
-	int				swipe;
 }					t_data;
 
 t_one				*global_struct(void);
