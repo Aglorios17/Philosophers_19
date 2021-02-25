@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 18:23:53 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 13:54:37 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	choose_fork(t_one *one, t_data *data, int i)
 	data->fork2 = i;
 	if (i % 2)
 	{
-		if (data->swipe % 2 == 0)
+		if (data->name == one->nb_of_philo && data->name % 2 == 0)
 		{
 			data->fork2 = data->fork1;
 			data->fork1 = i;
