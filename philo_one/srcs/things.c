@@ -68,12 +68,12 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	pthread_mutex_lock(one->mutex[data->fork2]);
 	ft_put_status(data, (char *)arg, NULL, data->fork2);
 	eating(arg, data);
+	pthread_mutex_unlock(one->mutex[data->fork1]);
+	pthread_mutex_unlock(one->mutex[data->fork2]);
 	data->meal++;
 	pthread_mutex_lock(&meal->ct);
 	meal->count++;
 	pthread_mutex_unlock(&meal->ct);
-	pthread_mutex_unlock(one->mutex[data->fork1]);
-	pthread_mutex_unlock(one->mutex[data->fork2]);
 	sleeping(arg, data);
 }
 
