@@ -44,9 +44,17 @@ typedef struct		s_data
 	int				fork2;
 	long int		time;
 	long int		live;
+	int				meal;
 }					t_data;
 
+typedef struct		s_meal
+{
+	pthread_mutex_t	ct;
+	int				count;
+}					t_meal;
+
 t_one				*global_struct(void);
+t_meal				*global_structc(void);
 int					ft_error(int i);
 void				init_struct(t_one *one);
 int					get_value(t_one *one, char **argv, int argc);

@@ -40,3 +40,10 @@ t_one	*global_struct(void)
 
 	return (&one);
 }
+
+t_meal	*global_structc(void)
+{
+	static t_meal	meal;
+
+	return (&meal);
+}
