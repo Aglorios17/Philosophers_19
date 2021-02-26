@@ -43,10 +43,12 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 {
 	char	*nbr;
 	char	*str;
+	char	*fri;
 	t_one	*one;
 
 	nbr = NULL;
 	str = NULL;
+	fri = NULL;
 	one = global_struct();
 	pthread_mutex_lock(&one->write);
 	if (one->death == 1)
@@ -57,21 +59,42 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	str = ft_itoa(data->time);
-	str = ft_strjoin(str, " Philosopher ");
+
+	fri = ft_itoa(data->time);
+	str = ft_strjoin(fri, " Philosopher ");
+	free(fri);
+	fri = str;
 	str = ft_strjoin(str, philo);
+	free(fri);
+	fri = str;
 	str = ft_strjoin(str, " ");
-	if (i >= 0)
+	free(fri);
+	if (i != -1 && i != -2)
 	{
+		fri = str;
 		str = ft_strjoin(str, "has fork ");
+		free(fri);
 		nbr = ft_itoa(i);
+		fri = str;
 		str = ft_strjoin(str, nbr);
+		free(fri);
+		free(nbr);
 	}
 	else if (i == -1)
+	{
+		fri = str;
 		str = ft_strjoin(str, put);
+		free(fri);
+	}
 	else
+	{
+		fri = str;
 		str = ft_strjoin(str, "est mort");
+		free(fri);
+	}
+	fri = str;
 	str = ft_strjoin(str, "\n");
+	free(fri);
 	write(1, str, ft_strlen(str));
 	pthread_mutex_unlock(&one->write);
 }

@@ -56,17 +56,21 @@ void	*do_time(void *arg)
 	t_data			*data;
 	long int		time;
 	struct timeval	end;
+	char			*fri;
 
 	one = global_struct();
 	data = (t_data *)arg;
 	time = 0;
+	fri = NULL;
 	while (1)
 	{
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
 		{
-			ft_put_status(data, (char *)arg, NULL, -2);
+			fri = ft_itoa(data->name);
+			ft_put_status(data, fri, NULL, -2);
+			free(fri);
 			pthread_mutex_unlock(&one->finish);
 			one->death = 1;
 			return (NULL);
