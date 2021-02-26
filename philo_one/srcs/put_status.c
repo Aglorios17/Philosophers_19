@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/26 15:20:04 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/26 16:04:20 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ void	fork_put(int i)
 
 void	choose_status(char *put, int i)
 {
+	t_one	*one;
+
+	one = global_struct();
 	if (i != -1 && i != -2)
 		fork_put(i);
 	else if (i == -1)
 		write(1, put, ft_strlen(put));
 	else
+	{
 		write(1, "est mort", 8);
+		one->death = 1;
+	}
 }
 
 void	ft_put_status(t_data *data, char *philo, char *put, int i)

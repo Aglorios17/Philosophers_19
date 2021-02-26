@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/25 15:49:06 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/26 16:03:35 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	*do_time(void *arg)
 			ft_put_status(data, fri, NULL, -2);
 			free(fri);
 			pthread_mutex_unlock(&one->finish);
-			one->death = 1;
 			return (NULL);
 		}
 		usleep(5);
