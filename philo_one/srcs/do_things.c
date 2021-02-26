@@ -76,5 +76,6 @@ void	*do_things(void *arg)
 		choose_fork(one, data, data->name - 1);
 	}
 	pthread_detach(data->timer);
+	pthread_mutex_destroy(&data->timing);
 	return (NULL);
 }

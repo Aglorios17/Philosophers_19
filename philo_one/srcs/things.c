@@ -66,10 +66,7 @@ void	*do_time(void *arg)
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
 		{
-			pthread_mutex_lock(&one->write);
-			printf("Philosopher %i est MORT en ||%li||\n",
-				data->name, (end.tv_sec * 1000 + end.tv_usec / 1000) -
-					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000));
+			ft_put_status(data, (char *)arg, NULL, -2);
 			pthread_mutex_unlock(&one->finish);
 			one->death = 1;
 			return (NULL);

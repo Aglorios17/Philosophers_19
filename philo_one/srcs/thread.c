@@ -60,6 +60,11 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-		pthread_detach(*one->philos[i++]);
+	{
+		pthread_detach(*one->philos[i]);
+		pthread_mutex_destroy(one->mutex[i++]);
+	}
+	pthread_mutex_destroy(&one->finish);
+	pthread_mutex_destroy(&one->write);
 	return (1);
 }
