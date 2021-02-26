@@ -31,7 +31,6 @@ typedef struct		s_philo_one
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				nb_of_time;
-	int				*forkette;
 	int				death;
 }					t_one;
 
@@ -65,6 +64,7 @@ void				*eating(void *arg, t_data *data);
 void				*sleeping(void *arg, t_data *data);
 void				ft_put_status(t_data *data, char *philo,
 						char *put, int i);
+void				meal_count(t_one *one, t_data *data);
 
 void				my_sleep(long int time);
 long				get_time(void);

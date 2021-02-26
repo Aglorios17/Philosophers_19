@@ -6,65 +6,94 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 10:40:31 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 15:43:08 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_one.h"
 
-long	get_time(void)
+char	*time_status(t_data *data, char *str, char *philo)
 {
-	struct timeval	tp;
-	long			milliseconds;
-
-	gettimeofday(&tp, NULL);
-	milliseconds = tp.tv_sec * 1000;
-	milliseconds += tp.tv_usec / 1000;
-	return (milliseconds);
-}
-
-void	my_sleep(long int time)
-{
-	long int	i;
-	long int	t;
-
-	i = 0;
-	t = get_time();
-	while (i < (time * 20))
-	{
-		i++;
-		if ((get_time() - t) >= time)
-			break ;
-		usleep(50);
-	}
-}
-
-void	ft_put_status(t_data *data, char *philo, char *put, int i)
-{
-	char	*nbr;
-	char	*str;
 	t_one	*one;
+	char	*fri;
 
-	nbr = NULL;
-	str = NULL;
+	fri = NULL;
 	one = global_struct();
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	str = ft_itoa(data->time);
-	str = ft_strjoin(str, " Philosopher ");
+	fri = ft_itoa(data->time);
+	str = ft_strjoin(fri, " Philosopher ");
+	free(fri);
+	fri = str;
 	str = ft_strjoin(str, philo);
+	free(fri);
+	fri = str;
 	str = ft_strjoin(str, " ");
-	if (i != -1)
+	free(fri);
+	return (str);
+}
+
+char	*fork_put(char *str, int i)
+{
+	char	*nbr;
+	char	*fri;
+
+	nbr = NULL;
+	fri = NULL;
+	fri = str;
+	str = ft_strjoin(str, "has fork ");
+	free(fri);
+	nbr = ft_itoa(i);
+	fri = str;
+	str = ft_strjoin(str, nbr);
+	free(fri);
+	free(nbr);
+	return (str);
+}
+
+char	*choose_status(char *str, char *put, int i)
+{
+	char *fri;
+
+	fri = NULL;
+	if (i != -1 && i != -2)
+		str = fork_put(str, i);
+	else if (i == -1)
 	{
-		str = ft_strjoin(str, "has fork ");
-		nbr = ft_itoa(i);
-		str = ft_strjoin(str, nbr);
+		fri = str;
+		str = ft_strjoin(str, put);
+		free(fri);
 	}
 	else
-		str = ft_strjoin(str, put);
-	str = ft_strjoin(str, "\n");
+	{
+		fri = str;
+		str = ft_strjoin(str, "est mort");
+		free(fri);
+	}
+	return (str);
+}
+
+void	ft_put_status(t_data *data, char *philo, char *put, int i)
+{
+	char	*str;
+	char	*fri;
+	t_one	*one;
+
+	str = NULL;
+	fri = NULL;
+	one = global_struct();
 	pthread_mutex_lock(&one->write);
+	if (one->death == 1)
+	{
+		pthread_mutex_unlock(&one->write);
+		return ;
+	}
+	str = time_status(data, str, philo);
+	str = choose_status(str, put, i);
+	fri = str;
+	str = ft_strjoin(str, "\n");
+	free(fri);
 	write(1, str, ft_strlen(str));
 	pthread_mutex_unlock(&one->write);
 }

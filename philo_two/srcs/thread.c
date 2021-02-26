@@ -32,6 +32,7 @@ int		ft_thread_alloc(t_one *one)
 	}
 	pthread_mutex_init(&one->write, NULL);
 	pthread_mutex_init(&one->finish, NULL);
+	pthread_mutex_lock(&one->finish);
 	return (1);
 }
 
@@ -59,6 +60,11 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-		pthread_join(*one->philos[i++], NULL);
+	{
+		pthread_detach(*one->philos[i]);
+		pthread_mutex_destroy(one->mutex[i++]);
+	}
+	pthread_mutex_destroy(&one->finish);
+	pthread_mutex_destroy(&one->write);
 	return (1);
 }

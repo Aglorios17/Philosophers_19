@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 14:07:43 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,7 @@ int		get_value(t_one *one, char **argv, int argc)
 
 int		check_value(t_one *one)
 {
-	int i;
-	int nbp;
-
-	i = 0;
-	nbp = 0;
 	if (one->nb_of_philo < 2)
 		return (ft_error(3));
-	nbp = one->nb_of_philo;
-	one->forkette = malloc(sizeof(int) * nbp);
-	while (nbp)
-	{
-		one->forkette[i] = 1;
-		nbp--;
-		i++;
-	}
 	return (1);
 }
