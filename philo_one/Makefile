@@ -18,6 +18,7 @@ SRCS 			= main/philo_one.c \
 					srcs/do_things.c \
 					srcs/things.c \
 					srcs/put_status.c \
+					srcs/time.c \
 					utils/ft_atoi.c \
 					utils/ft_isdigit.c \
 					utils/ft_itoa.c \

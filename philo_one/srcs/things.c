@@ -61,7 +61,6 @@ void	*do_time(void *arg)
 	one = global_struct();
 	data = (t_data *)arg;
 	time = 0;
-	fri = NULL;
 	while (1)
 	{
 		gettimeofday(&end, NULL);

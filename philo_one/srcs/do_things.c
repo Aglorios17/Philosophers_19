@@ -57,11 +57,10 @@ void	*do_things(void *arg)
 	int			i;
 
 	one = global_struct();
-	i = 0;
+	i = 1;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
-	init_do_things(one, data, arg, i);
-	i = 1;
+	init_do_things(one, data, arg, 0);
 	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{

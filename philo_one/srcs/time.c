@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/25 14:06:55 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 15:43:08 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_one.h"
 
-int		ft_error(int i)
+long	get_time(void)
 {
-	if (i == 1)
-		write(2, "Nbr of arguments ", 17);
-	if (i == 2)
-		write(2, "Invalid character ", 18);
-	if (i == 3)
-		write(2, "Not enough Philo ", 17);
-	write(2, ": ERROR\n", 8);
-	return (0);
+	struct timeval	end;
+	long			ms;
+
+	gettimeofday(&end, NULL);
+	ms = end.tv_sec * 1000;
+	ms += end.tv_usec / 1000;
+	return (ms);
 }
 
-void	init_struct(t_one *one)
+void	my_sleep(long int time)
 {
-	one->nb_of_philo = 0;
-	one->t_to_die = 0;
-	one->t_to_eat = 0;
-	one->t_to_sleep = 0;
-	one->nb_of_time = 0;
-	one->death = 0;
-}
+	long int	i;
+	long int	end;
 
-t_one	*global_struct(void)
-{
-	static t_one	one;
-
-	return (&one);
+	i = 0;
+	end = get_time();
+	while (i < (time * 20))
+	{
+		i++;
+		if ((get_time() - end) >= time)
+			break ;
+		usleep(50);
+	}
 }
