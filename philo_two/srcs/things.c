@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 void	*eating(void *arg, t_data *data)
 {
 	t_one	*one;
 
 	one = global_struct();
-	pthread_mutex_lock(&data->timing);
+	sem_wait(&data->timing);
 	data->live = one->t_to_die + get_time();
-	pthread_mutex_unlock(&data->timing);
+	sem_post(&data->timing);
 	ft_put_status(data, (char *)arg, "EAT", -1);
 	my_sleep(one->t_to_eat);
 	return (NULL);
@@ -40,13 +40,13 @@ void	*sleeping(void *arg, t_data *data)
 
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
-	pthread_mutex_lock(one->mutex[data->fork1]);
+	sem_wait(one->mutex[data->fork1]);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
-	pthread_mutex_lock(one->mutex[data->fork2]);
+	sem_wait(one->mutex[data->fork2]);
 	ft_put_status(data, (char *)arg, NULL, data->fork2);
 	eating(arg, data);
-	pthread_mutex_unlock(one->mutex[data->fork1]);
-	pthread_mutex_unlock(one->mutex[data->fork2]);
+	sem_post(one->mutex[data->fork1]);
+	sem_post(one->mutex[data->fork2]);
 	sleeping(arg, data);
 }
 
@@ -70,7 +70,7 @@ void	*do_time(void *arg)
 			fri = ft_itoa(data->name);
 			ft_put_status(data, fri, NULL, -2);
 			free(fri);
-			pthread_mutex_unlock(&one->finish);
+			sem_post(&one->finish);
 			return (NULL);
 		}
 		usleep(5);

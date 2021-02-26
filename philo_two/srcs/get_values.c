@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 int		get_value(t_one *one, char **argv, int argc)
 {

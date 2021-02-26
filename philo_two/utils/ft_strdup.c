@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 char	*ft_strdup(const char *src)
 {

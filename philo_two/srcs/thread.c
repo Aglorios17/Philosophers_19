@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 int		ft_thread_alloc(t_one *one)
 {
@@ -27,12 +27,12 @@ int		ft_thread_alloc(t_one *one)
 			return (-1);
 		if (!(one->mutex[i] = malloc(sizeof(pthread_mutex_t))))
 			return (-1);
-		pthread_mutex_init(one->mutex[i], NULL);
+		sem_init(one->mutex[i], 0, 1);
 		i++;
 	}
-	pthread_mutex_init(&one->write, NULL);
-	pthread_mutex_init(&one->finish, NULL);
-	pthread_mutex_lock(&one->finish);
+	sem_init(&one->write, 0, 1);
+	sem_init(&one->finish, 0, 1);
+	sem_wait(&one->finish);
 	return (1);
 }
 
@@ -62,9 +62,9 @@ int		ft_thread_join(t_one *one)
 	while (i < one->nb_of_philo)
 	{
 		pthread_detach(*one->philos[i]);
-		pthread_mutex_destroy(one->mutex[i++]);
+		sem_destroy(one->mutex[i++]);
 	}
-	pthread_mutex_destroy(&one->finish);
-	pthread_mutex_destroy(&one->write);
+	sem_destroy(&one->finish);
+	sem_destroy(&one->write);
 	return (1);
 }

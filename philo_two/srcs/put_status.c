@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 void	time_status(t_data *data, char *philo)
 {
@@ -62,14 +62,14 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	t_one	*one;
 
 	one = global_struct();
-	pthread_mutex_lock(&one->write);
+	sem_wait(&one->write);
 	if (one->death == 1)
 	{
-		pthread_mutex_unlock(&one->write);
+		sem_post(&one->write);
 		return ;
 	}
 	time_status(data, philo);
 	choose_status(put, i);
 	write(1, "\n", 1);
-	pthread_mutex_unlock(&one->write);
+	sem_post(&one->write);
 }

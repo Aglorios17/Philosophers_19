@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,14 +17,15 @@
 # include <stdlib.h>
 # include <string.h>
 # include <pthread.h>
+# include <semaphore.h>
 # include <sys/time.h>
 
-typedef struct		s_philo_one
+typedef struct		s_philo_two
 {
 	pthread_t		**philos;
-	pthread_mutex_t	**mutex;
-	pthread_mutex_t	write;
-	pthread_mutex_t	finish;
+	sem_t			**mutex;
+	sem_t			write;
+	sem_t			finish;
 	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
@@ -37,7 +38,7 @@ typedef struct		s_philo_one
 typedef struct		s_data
 {
 	pthread_t		timer;
-	pthread_mutex_t	timing;
+	sem_t			timing;
 	struct timeval	end;
 	int				name;
 	int				fork1;

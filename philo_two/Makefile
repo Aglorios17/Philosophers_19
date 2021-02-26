@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= philo_one
-SRCS 			= main/philo_one.c \
+NAME 			= philo_two
+SRCS 			= main/philo_two.c \
 					main/init.c \
 					srcs/thread.c \
 					srcs/get_values.c \
@@ -27,7 +27,7 @@ SRCS 			= main/philo_one.c \
 					utils/ft_strjoin.c \
 
 OBJS			= ${SRCS:.c=.o}
-INCLUDE 		= include/philo_one.h
+INCLUDE 		= include/philo_two.h
 CC				= gcc -Wall -Wextra -Werror -g  #-fsanitize=address
 RM				= rm -f
 

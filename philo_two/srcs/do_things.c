@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 void	choose_fork(t_one *one, t_data *data, int i)
 {
@@ -38,7 +38,7 @@ void	choose_fork(t_one *one, t_data *data, int i)
 
 void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 {
-	pthread_mutex_init(&data->timing, NULL);
+	sem_init(&data->timing, 0, 1);
 	data->timer = 0;
 	data->name = ft_atoi(arg);
 	i = ft_atoi(arg) - 1;
@@ -68,13 +68,13 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
-			pthread_mutex_unlock(&one->finish);
+			sem_post(&one->finish);
 			pthread_detach(data->timer);
 			return (NULL);
 		}
 		choose_fork(one, data, data->name - 1);
 	}
 	pthread_detach(data->timer);
-	pthread_mutex_destroy(&data->timing);
+	sem_destroy(&data->timing);
 	return (NULL);
 }
