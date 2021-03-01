@@ -12,30 +12,6 @@
 
 #include "../include/philo_two.h"
 
-void	choose_fork(t_one *one, t_data *data, int i)
-{
-	data->fork1 = 0;
-	data->fork2 = 0;
-	if (i + 1 >= one->nb_of_philo)
-		data->fork1 = 0;
-	else
-		data->fork1 = i + 1;
-	data->fork2 = i;
-	if (i % 2)
-	{
-		if (data->name == one->nb_of_philo && data->name % 2 == 0)
-		{
-			data->fork2 = data->fork1;
-			data->fork1 = i;
-		}
-		else
-		{
-			data->fork1 = data->fork1;
-			data->fork2 = i;
-		}
-	}
-}
-
 void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 {
 	sem_unlink("timing");
@@ -43,10 +19,6 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 	data->timer = 0;
 	data->name = ft_atoi(arg);
 	(void)i;
-//	i = ft_atoi(arg) - 1;
-//	if (i % 2)
-//		usleep(50);
-//	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000)
 					+ one->t_to_die;
@@ -74,7 +46,6 @@ void	*do_things(void *arg)
 			pthread_detach(data->timer);
 			return (NULL);
 		}
-//		choose_fork(one, data, data->name - 1);
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);

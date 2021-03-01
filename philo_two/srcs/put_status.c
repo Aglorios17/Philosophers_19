@@ -34,9 +34,6 @@ void	fork_put(int i)
 {
 	write(1, "has fork", 9);
 	(void)i;
-//	nbr = ft_itoa(i);
-//	write(1, nbr, ft_strlen(nbr));
-//	free(nbr);
 }
 
 void	choose_status(char *put, int i)
