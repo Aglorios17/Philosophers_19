@@ -14,17 +14,6 @@
 
 int		ft_thread_alloc(t_one *one)
 {
-	int	i;
-
-	i = 0;
-	if (!(one->philos = malloc(sizeof(pid_t *) * one->nb_of_philo)))
-		return (-1);
-	while (i < one->nb_of_philo)
-	{
-		if (!(one->philos[i] = malloc(sizeof(pid_t))))
-			return (-1);
-		i++;
-	}
 	sem_unlink("sem");
 	sem_unlink("write");
 	sem_unlink("finish");
@@ -39,6 +28,7 @@ int		ft_thread_create(t_one *one)
 {
 	int		i;
 	char	*nbp;
+	pid_t	myphiphi[201];
 
 	i = 0;
 	nbp = NULL;
@@ -47,29 +37,25 @@ int		ft_thread_create(t_one *one)
 	gettimeofday(&one->start, NULL);
 	while (i < one->nb_of_philo)
 	{
-		if ((*one->philos[i] = fork()) == -1)
+		if ((myphiphi[i] = fork()) == -1)
 			return (0);
-		if (*one->philos[i] == 0)
+		if (myphiphi[i] == 0)
 		{
 			nbp = ft_itoa(i + 1);
 			do_things(nbp);
-			exit(0);
 		}
 		i++;
 	}
+	i = 0;
+	while (i < one->nb_of_philo)
+		waitpid(myphiphi[i++], 0, 0);
 	return (1);
 }
 
 int		ft_thread_join(t_one *one)
 {
-	int i;
-
-	i = 0;
-	while (i < one->nb_of_philo)
-		waitpid(*one->philos[i++], NULL, 0);
 	sem_close(one->sem);
 	sem_close(one->finish);
 	sem_close(one->write);
-	exit(0);
 	return (1);
 }

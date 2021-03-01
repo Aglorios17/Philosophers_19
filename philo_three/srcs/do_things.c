@@ -44,12 +44,11 @@ void	*do_things(void *arg)
 		{
 			sem_post(one->finish);
 			pthread_detach(data->timer);
-			kill(*one->philos[data->name], SIGKILL);
+			sem_close(data->timing);
 			return (NULL);
 		}
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);
-//	kill(*one->philos[data->name], SIGKILL);
 	return (NULL);
 }
