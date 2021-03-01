@@ -10,14 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= philo_one
-SRCS 			= main/philo_one.c \
+NAME 			= philo_two
+SRCS 			= main/philo_two.c \
 					main/init.c \
 					srcs/thread.c \
 					srcs/get_values.c \
 					srcs/do_things.c \
 					srcs/things.c \
 					srcs/put_status.c \
+					srcs/time.c \
 					utils/ft_atoi.c \
 					utils/ft_isdigit.c \
 					utils/ft_itoa.c \
@@ -26,7 +27,7 @@ SRCS 			= main/philo_one.c \
 					utils/ft_strjoin.c \
 
 OBJS			= ${SRCS:.c=.o}
-INCLUDE 		= include/philo_one.h
+INCLUDE 		= include/philo_two.h
 CC				= gcc -Wall -Wextra -Werror -g  #-fsanitize=address
 RM				= rm -f
 

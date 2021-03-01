@@ -6,35 +6,19 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/25 13:54:37 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
-
-void	choose_fork(t_one *one, t_data *data, int i)
-{
-	data->fork1 = 0;
-	data->fork2 = 0;
-	if (i + 1 >= one->nb_of_philo)
-		data->fork1 = 0;
-	else
-		data->fork1 = i + 1;
-	data->fork2 = i;
-	if (i % 2)
-	{
-		data->fork2 = data->fork1;
-		data->fork1 = i;
-	}
-}
+#include "../include/philo_two.h"
 
 void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 {
-	pthread_mutex_init(&data->timing, NULL);
+	sem_unlink("timing");
+	data->timing = sem_open("timing", O_CREAT, 0660, 1);
 	data->timer = 0;
 	data->name = ft_atoi(arg);
-	i = ft_atoi(arg) - 1;
-	choose_fork(one, data, i);
+	(void)i;
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000)
 					+ one->t_to_die;
@@ -47,11 +31,10 @@ void	*do_things(void *arg)
 	int			i;
 
 	one = global_struct();
-	i = 0;
+	i = 1;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
-	init_do_things(one, data, arg, i);
-	i = 1;
+	init_do_things(one, data, arg, 0);
 	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{
@@ -59,11 +42,12 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
+			sem_post(one->finish);
 			pthread_detach(data->timer);
 			return (NULL);
 		}
 	}
 	pthread_detach(data->timer);
-	exit(1); /////////////////////// need return
+	sem_close(data->timing);
 	return (NULL);
 }

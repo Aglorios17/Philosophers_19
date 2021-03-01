@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,30 +15,31 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <string.h>
 # include <pthread.h>
+# include <semaphore.h>
 # include <sys/time.h>
 
-typedef struct		s_philo_one
+typedef struct		s_philo_two
 {
 	pthread_t		**philos;
-	pthread_mutex_t	**mutex;
-	pthread_mutex_t	write;
-	pthread_mutex_t	finish;
+	sem_t			*sem;
+	sem_t			*write;
+	sem_t			*finish;
 	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				nb_of_time;
-	int				*forkette;
 	int				death;
 }					t_one;
 
 typedef struct		s_data
 {
 	pthread_t		timer;
-	pthread_mutex_t	timing;
+	sem_t			*timing;
 	struct timeval	end;
 	int				name;
 	int				fork1;
@@ -65,6 +66,7 @@ void				*eating(void *arg, t_data *data);
 void				*sleeping(void *arg, t_data *data);
 void				ft_put_status(t_data *data, char *philo,
 						char *put, int i);
+void				meal_count(t_one *one, t_data *data);
 
 void				my_sleep(long int time);
 long				get_time(void);

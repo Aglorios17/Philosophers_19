@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
 int		ft_thread_alloc(t_one *one)
 {
@@ -19,19 +19,19 @@ int		ft_thread_alloc(t_one *one)
 	i = 0;
 	if (!(one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo)))
 		return (-1);
-	if (!(one->mutex = malloc(sizeof(pthread_mutex_t *) * one->nb_of_philo)))
-		return (-1);
 	while (i < one->nb_of_philo)
 	{
 		if (!(one->philos[i] = malloc(sizeof(pthread_t))))
 			return (-1);
-		if (!(one->mutex[i] = malloc(sizeof(pthread_mutex_t))))
-			return (-1);
-		pthread_mutex_init(one->mutex[i], NULL);
 		i++;
 	}
-	pthread_mutex_init(&one->write, NULL);
-	pthread_mutex_init(&one->finish, NULL);
+	sem_unlink("sem");
+	sem_unlink("write");
+	sem_unlink("finish");
+	one->sem = sem_open("sem", O_CREAT, 0660, one->nb_of_philo);
+	one->write = sem_open("write", O_CREAT, 0660, 1);
+	one->finish = sem_open("finish", O_CREAT, 0660, 1);
+	sem_wait(one->finish);
 	return (1);
 }
 
@@ -59,6 +59,9 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-		pthread_join(*one->philos[i++], NULL);
+		pthread_detach(*one->philos[i++]);
+	sem_close(one->sem);
+	sem_close(one->finish);
+	sem_close(one->write);
 	return (1);
 }

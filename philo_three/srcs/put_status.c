@@ -6,65 +6,65 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/24 10:40:31 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/02/26 16:04:20 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo_one.h"
+#include "../include/philo_two.h"
 
-long	get_time(void)
+void	time_status(t_data *data, char *philo)
 {
-	struct timeval	tp;
-	long			milliseconds;
+	t_one	*one;
+	char	*fri;
 
-	gettimeofday(&tp, NULL);
-	milliseconds = tp.tv_sec * 1000;
-	milliseconds += tp.tv_usec / 1000;
-	return (milliseconds);
+	one = global_struct();
+	fri = NULL;
+	gettimeofday(&data->end, NULL);
+	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
+					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
+	fri = ft_itoa(data->time);
+	write(1, fri, ft_strlen(fri));
+	free(fri);
+	write(1, " Philosopher ", 13);
+	write(1, philo, ft_strlen(philo));
+	write(1, " ", 1);
 }
 
-void	my_sleep(long int time)
+void	fork_put(int i)
 {
-	long int	i;
-	long int	t;
+	write(1, "has fork", 9);
+	(void)i;
+}
 
-	i = 0;
-	t = get_time();
-	while (i < (time * 20))
+void	choose_status(char *put, int i)
+{
+	t_one	*one;
+
+	one = global_struct();
+	if (i != -1 && i != -2)
+		fork_put(i);
+	else if (i == -1)
+		write(1, put, ft_strlen(put));
+	else
 	{
-		i++;
-		if ((get_time() - t) >= time)
-			break ;
-		usleep(50);
+		write(1, "est mort", 8);
+		one->death = 1;
 	}
 }
 
 void	ft_put_status(t_data *data, char *philo, char *put, int i)
 {
-	char	*nbr;
-	char	*str;
 	t_one	*one;
 
-	nbr = NULL;
-	str = NULL;
 	one = global_struct();
-	gettimeofday(&data->end, NULL);
-	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
-					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	str = ft_itoa(data->time);
-	str = ft_strjoin(str, " Philosopher ");
-	str = ft_strjoin(str, philo);
-	str = ft_strjoin(str, " ");
-	if (i != -1)
+	sem_wait(one->write);
+	if (one->death == 1)
 	{
-		str = ft_strjoin(str, "has fork ");
-		nbr = ft_itoa(i);
-		str = ft_strjoin(str, nbr);
+		sem_post(one->write);
+		return ;
 	}
-	else
-		str = ft_strjoin(str, put);
-	str = ft_strjoin(str, "\n");
-	pthread_mutex_lock(&one->write);
-	write(1, str, ft_strlen(str));
-	pthread_mutex_unlock(&one->write);
+	time_status(data, philo);
+	choose_status(put, i);
+	write(1, "\n", 1);
+	sem_post(one->write);
 }
