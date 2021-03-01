@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -21,7 +21,7 @@
 # include <semaphore.h>
 # include <sys/time.h>
 
-typedef struct		s_philo_two
+typedef struct		s_philo_three
 {
 	pthread_t		**philos;
 	sem_t			*sem;

@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= philo_two
-SRCS 			= main/philo_two.c \
+NAME 			= philo_three
+SRCS 			= main/philo_three.c \
 					main/init.c \
 					srcs/thread.c \
 					srcs/get_values.c \
