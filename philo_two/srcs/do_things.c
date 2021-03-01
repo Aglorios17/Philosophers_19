@@ -38,6 +38,7 @@ void	choose_fork(t_one *one, t_data *data, int i)
 
 void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 {
+	sem_unlink("timing");
 	data->timing = sem_open("timing", O_CREAT, 0660, 1);
 	data->timer = 0;
 	data->name = ft_atoi(arg);

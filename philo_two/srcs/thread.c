@@ -25,9 +25,9 @@ int		ft_thread_alloc(t_one *one)
 			return (-1);
 		i++;
 	}
-//	sem_unlink("sem");
-//	sem_unlink("write");
-//	sem_unlink("finish");
+	sem_unlink("sem");
+	sem_unlink("write");
+	sem_unlink("finish");
 	one->sem = sem_open("sem", O_CREAT, 0660, one->nb_of_philo);
 	one->write = sem_open("write", O_CREAT, 0660, 1);
 	one->finish = sem_open("finish", O_CREAT, 0660, 1);
