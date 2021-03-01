@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/01 19:34:09 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		ft_thread_create(t_one *one)
 
 int		ft_thread_join(t_one *one)
 {
+//	sem_post(one->sem);
+//	sem_post(one->finish);
+//	sem_post(one->write);
 	sem_close(one->sem);
 	sem_close(one->finish);
 	sem_close(one->write);
