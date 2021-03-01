@@ -17,11 +17,11 @@ int		ft_thread_alloc(t_one *one)
 	int	i;
 
 	i = 0;
-	if (!(one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo)))
+	if (!(one->philos = malloc(sizeof(pid_t *) * one->nb_of_philo)))
 		return (-1);
 	while (i < one->nb_of_philo)
 	{
-		if (!(one->philos[i] = malloc(sizeof(pthread_t))))
+		if (!(one->philos[i] = malloc(sizeof(pid_t))))
 			return (-1);
 		i++;
 	}
@@ -48,7 +48,13 @@ int		ft_thread_create(t_one *one)
 	while (i < one->nb_of_philo)
 	{
 		nbp = ft_itoa(i + 1);
-		pthread_create(one->philos[i++], NULL, do_things, nbp);
+		if ((*one->philos[i] = fork()) == -1)
+			return (0);
+		if (*one->philos[i] == 0)
+			do_things(nbp);
+		else
+			waitpid(*one->philos[i], NULL, 0);
+		i++;
 	}
 	return (1);
 }
@@ -59,7 +65,7 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-		pthread_detach(*one->philos[i++]);
+		exit(0);
 	sem_close(one->sem);
 	sem_close(one->finish);
 	sem_close(one->write);

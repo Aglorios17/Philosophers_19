@@ -20,10 +20,13 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct		s_philo_three
 {
-	pthread_t		**philos;
+	pid_t		**philos;
 	sem_t			*sem;
 	sem_t			*write;
 	sem_t			*finish;
