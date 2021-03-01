@@ -17,9 +17,9 @@ void	*eating(void *arg, t_data *data)
 	t_one	*one;
 
 	one = global_struct();
-	sem_wait(&data->timing);
+	sem_wait(data->timing);
 	data->live = one->t_to_die + get_time();
-	sem_post(&data->timing);
+	sem_post(data->timing);
 	ft_put_status(data, (char *)arg, "EAT", -1);
 	my_sleep(one->t_to_eat);
 	return (NULL);
@@ -40,13 +40,13 @@ void	*sleeping(void *arg, t_data *data)
 
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
-	sem_wait(one->mutex[data->fork1]);
+	sem_wait(one->sem);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
-	sem_wait(one->mutex[data->fork2]);
+	sem_wait(one->sem);
 	ft_put_status(data, (char *)arg, NULL, data->fork2);
 	eating(arg, data);
-	sem_post(one->mutex[data->fork1]);
-	sem_post(one->mutex[data->fork2]);
+	sem_post(one->sem);
+	sem_post(one->sem);
 	sleeping(arg, data);
 }
 
@@ -70,7 +70,7 @@ void	*do_time(void *arg)
 			fri = ft_itoa(data->name);
 			ft_put_status(data, fri, NULL, -2);
 			free(fri);
-			sem_post(&one->finish);
+			sem_post(one->finish);
 			return (NULL);
 		}
 		usleep(5);

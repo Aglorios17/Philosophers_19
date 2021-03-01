@@ -19,20 +19,19 @@ int		ft_thread_alloc(t_one *one)
 	i = 0;
 	if (!(one->philos = malloc(sizeof(pthread_t *) * one->nb_of_philo)))
 		return (-1);
-	if (!(one->mutex = malloc(sizeof(pthread_mutex_t *) * one->nb_of_philo)))
-		return (-1);
 	while (i < one->nb_of_philo)
 	{
 		if (!(one->philos[i] = malloc(sizeof(pthread_t))))
 			return (-1);
-		if (!(one->mutex[i] = malloc(sizeof(pthread_mutex_t))))
-			return (-1);
-		sem_init(one->mutex[i], 0, 1);
 		i++;
 	}
-	sem_init(&one->write, 0, 1);
-	sem_init(&one->finish, 0, 1);
-	sem_wait(&one->finish);
+//	sem_unlink("sem");
+//	sem_unlink("write");
+//	sem_unlink("finish");
+	one->sem = sem_open("sem", O_CREAT, 0660, one->nb_of_philo);
+	one->write = sem_open("write", O_CREAT, 0660, 1);
+	one->finish = sem_open("finish", O_CREAT, 0660, 1);
+	sem_wait(one->finish);
 	return (1);
 }
 
@@ -60,11 +59,9 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-	{
-		pthread_detach(*one->philos[i]);
-		sem_destroy(one->mutex[i++]);
-	}
-	sem_destroy(&one->finish);
-	sem_destroy(&one->write);
+		pthread_detach(*one->philos[i++]);
+	sem_close(one->sem);
+	sem_close(one->finish);
+	sem_close(one->write);
 	return (1);
 }

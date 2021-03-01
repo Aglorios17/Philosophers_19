@@ -26,7 +26,7 @@ int		main(int argc, char **argv)
 		return (0);
 	if (ft_thread_create(one) == 0)
 		return (0);
-	sem_wait(&one->finish);
+	sem_wait(one->finish);
 	if (ft_thread_join(one) == 0)
 		return (0);
 	return (0);

@@ -38,13 +38,14 @@ void	choose_fork(t_one *one, t_data *data, int i)
 
 void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 {
-	sem_init(&data->timing, 0, 1);
+	data->timing = sem_open("timing", O_CREAT, 0660, 1);
 	data->timer = 0;
 	data->name = ft_atoi(arg);
-	i = ft_atoi(arg) - 1;
-	if (i % 2)
-		usleep(50);
-	choose_fork(one, data, i);
+	(void)i;
+//	i = ft_atoi(arg) - 1;
+//	if (i % 2)
+//		usleep(50);
+//	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000)
 					+ one->t_to_die;
@@ -68,13 +69,13 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
-			sem_post(&one->finish);
+			sem_post(one->finish);
 			pthread_detach(data->timer);
 			return (NULL);
 		}
-		choose_fork(one, data, data->name - 1);
+//		choose_fork(one, data, data->name - 1);
 	}
 	pthread_detach(data->timer);
-	sem_destroy(&data->timing);
+	sem_close(data->timing);
 	return (NULL);
 }

@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <string.h>
 # include <pthread.h>
 # include <semaphore.h>
@@ -23,9 +24,9 @@
 typedef struct		s_philo_two
 {
 	pthread_t		**philos;
-	sem_t			**mutex;
-	sem_t			write;
-	sem_t			finish;
+	sem_t			*sem;
+	sem_t			*write;
+	sem_t			*finish;
 	struct timeval	start;
 	int				nb_of_philo;
 	int				t_to_die;
@@ -38,7 +39,7 @@ typedef struct		s_philo_two
 typedef struct		s_data
 {
 	pthread_t		timer;
-	sem_t			timing;
+	sem_t			*timing;
 	struct timeval	end;
 	int				name;
 	int				fork1;
