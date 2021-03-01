@@ -59,7 +59,12 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
+	{
+		sem_post(one->sem);
+		sem_post(one->finish);
+		sem_post(one->write);
 		pthread_detach(*one->philos[i++]);
+	}
 	sem_close(one->sem);
 	sem_close(one->finish);
 	sem_close(one->write);

@@ -47,13 +47,14 @@ int		ft_thread_create(t_one *one)
 	gettimeofday(&one->start, NULL);
 	while (i < one->nb_of_philo)
 	{
-		nbp = ft_itoa(i + 1);
 		if ((*one->philos[i] = fork()) == -1)
 			return (0);
 		if (*one->philos[i] == 0)
+		{
+			nbp = ft_itoa(i + 1);
 			do_things(nbp);
-		else
-			waitpid(*one->philos[i], NULL, 0);
+			exit(0);
+		}
 		i++;
 	}
 	return (1);
@@ -65,9 +66,10 @@ int		ft_thread_join(t_one *one)
 
 	i = 0;
 	while (i < one->nb_of_philo)
-		exit(0);
+		waitpid(*one->philos[i++], NULL, 0);
 	sem_close(one->sem);
 	sem_close(one->finish);
 	sem_close(one->write);
+	exit(0);
 	return (1);
 }
