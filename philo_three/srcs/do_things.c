@@ -53,13 +53,10 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
-		{
-			pthread_detach(data->timer);
-			sem_close(data->timing);
-			return (NULL);
-		}
+			break ;
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);
+	comdead(NULL);
 	return (NULL);
 }
