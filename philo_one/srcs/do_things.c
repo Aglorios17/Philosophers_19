@@ -67,13 +67,14 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
-		{
-			pthread_detach(data->timer);
-			pthread_mutex_destroy(&data->timing);
-			return (NULL);
-		}
+			break;
 		choose_fork(one, data, data->name - 1);
 	}
+	pthread_mutex_lock(&one->write);
+	one->all_eat++;
+	pthread_mutex_unlock(&one->write);
+	if (one->all_eat == one->nb_of_philo - 1)
+		pthread_mutex_unlock(&one->finish);
 	pthread_detach(data->timer);
 	pthread_mutex_destroy(&data->timing);
 	return (NULL);
