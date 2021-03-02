@@ -50,6 +50,24 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 					+ one->t_to_die;
 }
 
+void	all_eat(t_one *one, t_data *data)
+{
+	pthread_mutex_lock(&one->write);
+	one->all_eat++;
+	pthread_mutex_unlock(&one->write);
+	while (1)
+	{
+		if (one->all_eat == one->nb_of_philo - 1)
+		{
+			pthread_mutex_unlock(&one->finish);
+			pthread_detach(data->timer);
+			pthread_mutex_destroy(&data->timing);
+			break;
+		}
+		usleep(5);
+	}
+}
+
 void	*do_things(void *arg)
 {
 	t_one		*one;
@@ -70,12 +88,6 @@ void	*do_things(void *arg)
 			break;
 		choose_fork(one, data, data->name - 1);
 	}
-	pthread_mutex_lock(&one->write);
-	one->all_eat++;
-	pthread_mutex_unlock(&one->write);
-	if (one->all_eat == one->nb_of_philo - 1)
-		pthread_mutex_unlock(&one->finish);
-	pthread_detach(data->timer);
-	pthread_mutex_destroy(&data->timing);
+	all_eat(one, data);
 	return (NULL);
 }
