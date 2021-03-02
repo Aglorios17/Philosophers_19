@@ -68,8 +68,8 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
-			pthread_mutex_unlock(&one->finish);
 			pthread_detach(data->timer);
+			pthread_mutex_destroy(&data->timing);
 			return (NULL);
 		}
 		choose_fork(one, data, data->name - 1);

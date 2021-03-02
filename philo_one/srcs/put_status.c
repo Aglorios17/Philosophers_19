@@ -45,7 +45,7 @@ void	choose_status(char *put, int i)
 		fork_put(i);
 	else if (i == -1)
 		write(1, put, ft_strlen(put));
-	else
+	else if (i == -2)
 	{
 		write(1, "died", 4);
 		one->death = 1;
