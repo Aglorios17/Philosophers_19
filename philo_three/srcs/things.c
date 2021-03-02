@@ -41,7 +41,7 @@ void	*sleeping(void *arg, t_data *data)
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
 	if (data->name % 2 == 0)
-		usleep(50);
+		usleep(500);
 	sem_wait(one->sem);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
 	sem_wait(one->sem);

@@ -43,7 +43,7 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 	data->name = ft_atoi(arg);
 	i = ft_atoi(arg) - 1;
 	if (i % 2)
-		usleep(50);
+		usleep(500);
 	choose_fork(one, data, i);
 	gettimeofday(&data->end, NULL);
 	data->live = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000)
