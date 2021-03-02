@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/25 13:54:37 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/02 19:04:31 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	all_eat(t_one *one, t_data *data)
 	while (1)
 	{
 		if (one->all_eat == one->nb_of_philo - 1)
-			break;
+			break ;
 		usleep(5);
 	}
 	pthread_detach(data->timer);
@@ -60,7 +60,7 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
-			break;
+			break ;
 	}
 	all_eat(one, data);
 	return (NULL);
