@@ -42,7 +42,6 @@ void	*do_things(void *arg)
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
-			sem_post(one->finish);
 			pthread_detach(data->timer);
 			return (NULL);
 		}
