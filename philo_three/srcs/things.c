@@ -20,7 +20,7 @@ void	*eating(void *arg, t_data *data)
 	sem_wait(data->timing);
 	data->live = one->t_to_die + get_time();
 	sem_post(data->timing);
-	ft_put_status(data, (char *)arg, "EAT", -1);
+	ft_put_status(data, (char *)arg, "is eating", -1);
 	my_sleep(one->t_to_eat);
 	return (NULL);
 }
@@ -33,7 +33,7 @@ void	*sleeping(void *arg, t_data *data)
 	gettimeofday(&data->end, NULL);
 	data->time = (data->end.tv_sec * 1000 + data->end.tv_usec / 1000) -
 					(one->start.tv_sec * 1000 + one->start.tv_usec / 1000);
-	ft_put_status(data, (char *)arg, "SLEEP", -1);
+	ft_put_status(data, (char *)arg, "is sleeping", -1);
 	my_sleep(one->t_to_sleep);
 	return (NULL);
 }

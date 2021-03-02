@@ -31,7 +31,11 @@ int		get_value(t_one *one, char **argv, int argc)
 	one->t_to_eat = ft_atoi(argv[3]);
 	one->t_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
+	{
 		one->nb_of_time = ft_atoi(argv[5]);
+		if (ft_atoi(argv[5]) == 0)
+			return (-2);
+	}
 	return (1);
 }
 

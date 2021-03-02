@@ -64,7 +64,7 @@ void	*do_things(void *arg)
 	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{
-		ft_put_status(data, (char *)arg, "THINK", -1);
+		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{

@@ -20,6 +20,8 @@ int		ft_error(int i)
 		write(2, "Invalid character ", 18);
 	if (i == 3)
 		write(2, "Not enough Philo ", 17);
+	if (i == 4)
+		write(2, "Not enough meal ", 16);
 	write(2, ": ERROR\n", 8);
 	return (0);
 }

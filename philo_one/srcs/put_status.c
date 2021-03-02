@@ -32,13 +32,8 @@ void	time_status(t_data *data, char *philo)
 
 void	fork_put(int i)
 {
-	char	*nbr;
-
-	nbr = NULL;
-	write(1, "has fork ", 9);
-	nbr = ft_itoa(i);
-	write(1, nbr, ft_strlen(nbr));
-	free(nbr);
+	(void)i;
+	write(1, "has taken a fork ", 17);
 }
 
 void	choose_status(char *put, int i)
@@ -52,7 +47,7 @@ void	choose_status(char *put, int i)
 		write(1, put, ft_strlen(put));
 	else
 	{
-		write(1, "est mort", 8);
+		write(1, "died", 4);
 		one->death = 1;
 	}
 }
