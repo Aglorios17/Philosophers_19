@@ -26,7 +26,8 @@
 
 typedef struct		s_philo_three
 {
-	pid_t		**philos;
+	pid_t			**philos;
+	pthread_t		deadth;
 	sem_t			*sem;
 	sem_t			*write;
 	sem_t			*finish;

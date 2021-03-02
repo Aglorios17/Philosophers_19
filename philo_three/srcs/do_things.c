@@ -24,6 +24,17 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 					+ one->t_to_die;
 }
 
+void	*comdead(void *arg)
+{
+	t_one		*one;
+
+	(void)arg;
+	one = global_struct();
+	sem_wait(one->finish);
+	sem_post(one->finish);
+	exit(0);
+}
+
 void	*do_things(void *arg)
 {
 	t_one		*one;
@@ -36,6 +47,7 @@ void	*do_things(void *arg)
 		return (NULL);
 	init_do_things(one, data, arg, 0);
 	pthread_create(&data->timer, NULL, do_time, data);
+	pthread_create(&one->deadth, NULL, comdead, NULL);
 	while (one->death == 0)
 	{
 		ft_put_status(data, (char *)arg, "THINK", -1);

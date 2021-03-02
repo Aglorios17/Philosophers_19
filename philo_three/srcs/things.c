@@ -71,7 +71,6 @@ void	*do_time(void *arg)
 			ft_put_status(data, fri, NULL, -2);
 			free(fri);
 			sem_post(one->finish);
-//			exit(0);
 			return (NULL);
 		}
 		usleep(5);
