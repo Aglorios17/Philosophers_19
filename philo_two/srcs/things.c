@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/26 16:03:35 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/02 13:53:55 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	*sleeping(void *arg, t_data *data)
 
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
+	if (data->name % 2 == 0)
+		usleep(50);
 	sem_wait(one->sem);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
 	sem_wait(one->sem);
