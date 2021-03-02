@@ -24,6 +24,25 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 					+ one->t_to_die;
 }
 
+void	all_eat(t_one *one, t_data *data)
+{
+	sem_wait(one->write);
+	one->all_eat++;
+	sem_post(one->write);
+	sem_wait(data->timing);
+	data->live = 1000000 + get_time();
+	sem_post(data->timing);
+	while (1)
+	{
+		if (one->all_eat == one->nb_of_philo - 1)
+			break;
+		usleep(5);
+	}
+	pthread_detach(data->timer);
+	sem_close(data->timing);
+	sem_post(one->finish);
+}
+
 void	*do_things(void *arg)
 {
 	t_one		*one;
@@ -41,12 +60,8 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
-		{
-			pthread_detach(data->timer);
-			return (NULL);
-		}
+			break;
 	}
-	pthread_detach(data->timer);
-	sem_close(data->timing);
+	all_eat(one, data);
 	return (NULL);
 }

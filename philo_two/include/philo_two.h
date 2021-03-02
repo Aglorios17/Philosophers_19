@@ -33,6 +33,7 @@ typedef struct		s_philo_two
 	int				t_to_eat;
 	int				t_to_sleep;
 	int				nb_of_time;
+	int				all_eat;
 	int				death;
 }					t_one;
 
