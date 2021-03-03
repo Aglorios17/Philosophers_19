@@ -66,5 +66,6 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	time_status(data, philo);
 	choose_status(put, i);
 	write(1, "\n", 1);
-	sem_post(one->write);
+	if (one->death == 0)
+		sem_post(one->write);
 }
