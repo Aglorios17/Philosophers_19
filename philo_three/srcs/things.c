@@ -43,9 +43,9 @@ void	things_bcl(t_one *one, t_data *data, void *arg)
 	if (data->name % 2 == 0)
 		usleep(500);
 	sem_wait(one->sem);
-	ft_put_status(data, (char *)arg, NULL, data->fork1);
+	ft_put_status(data, (char *)arg, NULL, 0);
 	sem_wait(one->sem);
-	ft_put_status(data, (char *)arg, NULL, data->fork2);
+	ft_put_status(data, (char *)arg, NULL, 0);
 	eating(arg, data);
 	sem_post(one->sem);
 	sem_post(one->sem);
