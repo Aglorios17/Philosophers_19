@@ -17,6 +17,7 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 	sem_unlink("timing");
 	data->timing = sem_open("timing", O_CREAT, 0660, 1);
 	data->timer = 0;
+	data->eat_ok = 0;
 	data->name = ft_atoi(arg);
 	(void)i;
 	gettimeofday(&data->end, NULL);
@@ -53,7 +54,10 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
+		{
+			data->eat_ok = 1;
 			break ;
+		}
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);

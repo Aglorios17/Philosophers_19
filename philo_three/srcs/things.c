@@ -70,7 +70,8 @@ void	*do_time(void *arg)
 		if (time >= data->live)
 		{
 			fri = ft_itoa(data->name);
-			ft_put_status(data, fri, NULL, -2);
+			if (data->eat_ok == 0)
+				ft_put_status(data, fri, NULL, -2);
 			free(fri);
 			sem_post(one->finish);
 			return (NULL);
