@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/02 19:04:31 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/06 15:27:51 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	all_eat(t_one *one, t_data *data)
 	{
 		if (one->all_eat == one->nb_of_philo - 1)
 			break ;
-		usleep(5);
+		usleep(1000);
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);

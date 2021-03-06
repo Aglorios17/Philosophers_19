@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/02 13:53:55 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/06 15:28:14 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	*do_time(void *arg)
 			sem_post(one->finish);
 			return (NULL);
 		}
-		usleep(5);
+		usleep(500);
 	}
 	return (NULL);
 }
