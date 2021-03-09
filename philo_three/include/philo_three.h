@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 12:52:08 by aglorios          #+#    #+#             */
-/*   Updated: 2020/03/04 12:53:38 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:44:38 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct		s_philo_three
 	pid_t			**philos;
 	pthread_t		deadth;
 	sem_t			*sem;
+	sem_t			*sem_eat;
 	sem_t			*write;
 	sem_t			*finish;
 	struct timeval	start;

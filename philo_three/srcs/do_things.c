@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/09 16:37:32 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:44:35 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	*comdead(void *arg)
 	one = global_struct();
 	sem_wait(one->finish);
 	sem_post(one->finish);
+	sem_post(one->sem_eat);
 	exit(0);
 }
 
@@ -56,7 +57,8 @@ void	*do_things(void *arg)
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
 			data->eat_ok = 1;
-			return (NULL);
+			sem_post(one->sem_eat);
+			break;
 		}
 	}
 	pthread_detach(data->timer);

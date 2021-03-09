@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 19:18:24 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 int		ft_thread_alloc(t_one *one)
 {
+	int i;
+
+	i = 0;
 	sem_unlink("sem");
 	sem_unlink("write");
 	sem_unlink("finish");
+	sem_unlink("sem_eat");
 	one->sem = sem_open("sem", O_CREAT, 0660, one->nb_of_philo);
+	one->sem_eat = sem_open("sem_eat", O_CREAT, 0660, one->nb_of_philo);
 	one->write = sem_open("write", O_CREAT, 0660, 1);
 	one->finish = sem_open("finish", O_CREAT, 0660, 1);
 	sem_wait(one->finish);
+	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem_eat);
+		i++;
+	}
 	return (1);
 }
 
@@ -48,13 +58,22 @@ int		ft_thread_create(t_one *one)
 	}
 	i = 0;
 	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem_eat);
+		i++;
+	}
+	i = 0;
+	while (i < one->nb_of_philo)
 		waitpid(myphiphi[i++], NULL, 0);
+	sem_post(one->finish);
+	exit(0);
 	return (1);
 }
 
 int		ft_thread_join(t_one *one)
 {
 	sem_close(one->sem);
+	sem_close(one->sem_eat);
 	sem_close(one->finish);
 	sem_close(one->write);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 18:42:17 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ int		main(int argc, char **argv)
 		return (0);
 	if (ft_thread_create(one) == 0)
 		return (0);
+	i = 0;
+	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem_eat);
+		i++;
+	}
 	sem_wait(one->finish);
 	if (ft_thread_join(one) == 0)
 		return (0);
