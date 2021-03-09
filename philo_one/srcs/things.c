@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/06 15:26:00 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 16:21:14 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	*sleeping(void *arg, t_data *data)
 
 void	things_bcl(t_one *one, t_data *data, void *arg)
 {
+	ft_put_status(data, (char *)arg, "is thinking", -1);
 	pthread_mutex_lock(one->mutex[data->fork1]);
 	ft_put_status(data, (char *)arg, NULL, data->fork1);
 	pthread_mutex_lock(one->mutex[data->fork2]);

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/25 13:54:37 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 16:37:32 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,10 @@ void	*do_things(void *arg)
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
 		{
 			data->eat_ok = 1;
-			break ;
+			return (NULL);
 		}
 	}
 	pthread_detach(data->timer);
 	sem_close(data->timing);
-	comdead(NULL);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/06 15:27:51 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 16:16:19 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,18 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 
 void	all_eat(t_one *one, t_data *data)
 {
-	sem_wait(one->write);
-	one->all_eat++;
-	sem_post(one->write);
-	sem_wait(data->timing);
-	data->live = 1000000 + get_time();
-	sem_post(data->timing);
-	while (1)
+	if (one->all_eat == one->nb_of_philo - 1)
 	{
-		if (one->all_eat == one->nb_of_philo - 1)
-			break ;
-		usleep(1000);
+		sem_close(data->timing);
+		pthread_detach(data->timer);
+		sem_wait(one->write);
+		sem_post(one->finish);
 	}
-	pthread_detach(data->timer);
-	sem_close(data->timing);
-	sem_post(one->finish);
+	else
+	{
+		sem_close(data->timing);
+		pthread_detach(data->timer);
+	}
 }
 
 void	*do_things(void *arg)
@@ -60,6 +57,12 @@ void	*do_things(void *arg)
 		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
+		{
+			sem_wait(one->write);
+			one->all_eat++;
+			sem_post(one->write);
+		}
+		if (one->all_eat == one->nb_of_philo - 1)
 			break ;
 	}
 	all_eat(one, data);

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/06 15:25:23 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/09 16:19:32 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,18 @@ void	init_do_things(t_one *one, t_data *data, char *arg, int i)
 
 void	all_eat(t_one *one, t_data *data)
 {
-	pthread_mutex_lock(&one->write);
-	one->all_eat++;
-	pthread_mutex_unlock(&one->write);
-	pthread_mutex_lock(&data->timing);
-	data->live = 1000000 + get_time();
-	pthread_mutex_unlock(&data->timing);
-	while (1)
+	if (one->all_eat == one->nb_of_philo - 1)
 	{
-		if (one->all_eat == one->nb_of_philo - 1)
-			break ;
-		usleep(1000);
+		pthread_detach(data->timer);
+		pthread_mutex_destroy(&data->timing);
+		pthread_mutex_lock(&one->write);
+		pthread_mutex_unlock(&one->finish);
 	}
-	pthread_detach(data->timer);
-	pthread_mutex_destroy(&data->timing);
-	pthread_mutex_unlock(&one->finish);
+	else
+	{
+		pthread_detach(data->timer);
+		pthread_mutex_destroy(&data->timing);
+	}
 }
 
 void	*do_things(void *arg)
@@ -83,9 +80,14 @@ void	*do_things(void *arg)
 	pthread_create(&data->timer, NULL, do_time, data);
 	while (one->death == 0)
 	{
-		ft_put_status(data, (char *)arg, "is thinking", -1);
 		things_bcl(one, data, arg);
 		if (one->nb_of_time > 0 && i++ == one->nb_of_time)
+		{
+			pthread_mutex_lock(&one->write);
+			one->all_eat++;
+			pthread_mutex_unlock(&one->write);
+		}
+		if (one->all_eat == one->nb_of_philo - 1)
 			break ;
 		choose_fork(one, data, data->name - 1);
 	}
