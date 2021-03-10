@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/09 19:44:35 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:25:31 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	*comdead(void *arg)
 	t_one		*one;
 
 	(void)arg;
+	usleep(1000);
 	one = global_struct();
 	sem_wait(one->finish);
 	sem_post(one->finish);
@@ -58,7 +59,7 @@ void	*do_things(void *arg)
 		{
 			data->eat_ok = 1;
 			sem_post(one->sem_eat);
-			break;
+			break ;
 		}
 	}
 	pthread_detach(data->timer);

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/09 19:18:24 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:24:56 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		ft_thread_create(t_one *one)
 			return (0);
 		if (myphiphi[i] == 0)
 		{
-			nbp = ft_itoa(i + 1);
+			if (!(nbp = ft_itoa(i + 1)))
+				return (0);
 			do_things(nbp);
 		}
 		i++;
@@ -65,6 +66,11 @@ int		ft_thread_create(t_one *one)
 	i = 0;
 	while (i < one->nb_of_philo)
 		waitpid(myphiphi[i++], NULL, 0);
+	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem);
+		sem_post(one->sem);
+	}
 	sem_post(one->finish);
 	exit(0);
 	return (1);

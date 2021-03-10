@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/25 15:43:08 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:08:38 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	my_sleep(long int time)
 
 	i = 0;
 	end = get_time();
-	while (i < (time * 20))
+	while (i < (time * 10))
 	{
 		i++;
 		if ((get_time() - end) >= time)
 			break ;
-		usleep(50);
+		usleep(100);
 	}
 }

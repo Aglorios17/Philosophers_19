@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2019/10/22 16:43:58 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:58:19 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int		ft_thread_create(t_one *one)
 	gettimeofday(&one->start, NULL);
 	while (i < one->nb_of_philo)
 	{
-		nbp = ft_itoa(i + 1);
+		if (!(nbp = ft_itoa(i + 1)))
+			return (0);
 		pthread_create(one->philos[i++], NULL, do_things, nbp);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/02/26 16:04:20 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:24:11 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,13 @@ void	time_status(t_data *data, char *philo)
 	write(1, " ", 1);
 }
 
-void	fork_put(int i)
-{
-	(void)i;
-	write(1, "has taken a fork ", 17);
-}
-
 void	choose_status(char *put, int i)
 {
 	t_one	*one;
 
 	one = global_struct();
 	if (i != -1 && i != -2)
-		fork_put(i);
+		write(1, "has taken a fork ", 17);
 	else if (i == -1)
 		write(1, put, ft_strlen(put));
 	else if (i == -2)
@@ -59,10 +53,7 @@ void	ft_put_status(t_data *data, char *philo, char *put, int i)
 	one = global_struct();
 	pthread_mutex_lock(&one->write);
 	if (one->death == 1)
-	{
-		pthread_mutex_unlock(&one->write);
 		return ;
-	}
 	time_status(data, philo);
 	choose_status(put, i);
 	write(1, "\n", 1);

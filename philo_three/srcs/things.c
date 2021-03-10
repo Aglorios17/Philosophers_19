@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/06 15:28:38 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/10 15:27:00 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,21 @@ void	*do_time(void *arg)
 
 	one = global_struct();
 	data = (t_data *)arg;
-	time = 0;
 	while (1)
 	{
 		gettimeofday(&end, NULL);
 		time = end.tv_sec * 1000 + end.tv_usec / 1000;
 		if (time >= data->live)
 		{
-			fri = ft_itoa(data->name);
+			if (!(fri = ft_itoa(data->name)))
+				return (NULL);
 			if (data->eat_ok == 0)
 				ft_put_status(data, fri, NULL, -2);
 			free(fri);
 			sem_post(one->finish);
 			return (NULL);
 		}
-		usleep(500);
+		usleep(4000);
 	}
 	return (NULL);
 }
