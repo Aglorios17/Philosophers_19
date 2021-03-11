@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/10 15:24:56 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/11 13:37:55 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ int		ft_thread_alloc(t_one *one)
 	return (1);
 }
 
+void	ft_wait_process(pid_t *myphiphi, int i, t_one *one)
+{
+	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem_eat);
+		i++;
+	}
+	i = 0;
+	while (i < one->nb_of_philo)
+		waitpid(myphiphi[i++], NULL, 0);
+	while (i < one->nb_of_philo)
+	{
+		sem_wait(one->sem);
+		sem_post(one->sem);
+	}
+	sem_post(one->finish);
+}
+
 int		ft_thread_create(t_one *one)
 {
 	int		i;
@@ -57,21 +75,7 @@ int		ft_thread_create(t_one *one)
 		}
 		i++;
 	}
-	i = 0;
-	while (i < one->nb_of_philo)
-	{
-		sem_wait(one->sem_eat);
-		i++;
-	}
-	i = 0;
-	while (i < one->nb_of_philo)
-		waitpid(myphiphi[i++], NULL, 0);
-	while (i < one->nb_of_philo)
-	{
-		sem_wait(one->sem);
-		sem_post(one->sem);
-	}
-	sem_post(one->finish);
+	ft_wait_process(myphiphi, 0, one);
 	exit(0);
 	return (1);
 }

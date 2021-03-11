@@ -6,7 +6,7 @@
 /*   By: aglorios <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 15:42:11 by aglorios          #+#    #+#             */
-/*   Updated: 2021/03/10 15:25:31 by aglorios         ###   ########.fr       */
+/*   Updated: 2021/03/11 13:33:33 by aglorios         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*do_things(void *arg)
 	int			i;
 
 	one = global_struct();
-	i = 1;
+	i = 0;
 	if (!(data = malloc(sizeof(t_data))))
 		return (NULL);
 	init_do_things(one, data, arg, 0);
